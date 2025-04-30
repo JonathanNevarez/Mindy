@@ -2,13 +2,23 @@ services:
   - type: web
     name: mindy-frontend
     env: docker
-    dockerfilePath: ./frontend/Dockerfile
-    dockerContext: .
     plan: free
+    dockerContext: .
+    dockerfilePath: ./frontend/Dockerfile
+    envVars:
+      - key: VITE_API_URL
+        value: https://mindy-backend.onrender.com
 
   - type: web
     name: mindy-backend
     env: docker
-    dockerfilePath: ./backend/Dockerfile
-    dockerContext: .
     plan: free
+    dockerContext: .
+    dockerfilePath: ./backend/Dockerfile
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: MONGO_URI
+        value: mongodb+srv://jonathan:1234@clustermindy.5b4dixw.mongodb.net/?retryWrites=true&w=majority&appName=ClusterMindy
+      - key: JWT_SECRET
+        value: miclaveultrasecreta
