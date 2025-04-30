@@ -1,0 +1,246 @@
+/* ---------- CONTENEDOR GENERAL ---------- */
+.perfil-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 60px); /* Ajusta según la altura de tu navbar */
+  box-sizing: border-box;
+}
+
+/* ---------- LAYOUT EN DOS COLUMNAS ---------- */
+.perfil-layout {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fff;
+}
+
+/* ---------- COLUMNA IZQUIERDA ---------- */
+.perfil-sidebar {
+  width: 25%;
+  padding: 2rem;
+  background-color: #f1f1f1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.perfil-sidebar h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  text-transform: lowercase;
+}
+
+.perfil-sidebar p {
+  margin: 8px 0;
+  color: #222;
+  line-height: 1.5;
+}
+
+/* ---------- COLUMNA DERECHA ---------- */
+.perfil-main {
+  width: 75%;
+  padding: 4rem;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* ---------- HEADER DEL PERFIL ---------- */
+.perfil-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Imagen circular */
+.perfil-foto {
+  width: 175px;
+  height: 175px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+}
+
+/* Nombre y usuario */
+.perfil-nombres h2 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.username {
+  margin: 0;
+  color: gray;
+  font-size: 0.95rem;
+}
+
+/* Estadísticas (publicaciones, seguidores, etc) */
+.perfil-stats {
+  margin-top: 10px;
+  color: #444;
+  display: flex;
+  gap: 1rem;
+  font-size: 0.95rem;
+}
+
+/* Botón Editar perfil */
+.btn-editar-perfil {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #e60023;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.btn-editar-perfil:hover {
+  background-color: #c2001d;
+}
+
+/* --- ESTILOS ADAPTADOS PARA EditarPerfil --- */
+
+.perfil-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px 40px;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.perfil-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.perfil-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px; /* ESPACIADO entre todos los elementos */
+}
+
+.perfil-container label {
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+/* Centrar solo el input de archivo */
+.perfil-container input[type="file"] {
+  align-self: center;
+  margin-bottom: 10px;
+}
+
+/* Imagen preview */
+.perfil-container img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+  align-self: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/* Inputs, selects, textarea */
+.perfil-container input[type="text"],
+.perfil-container select,
+.perfil-container textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  font-size: 1rem;
+}
+
+.perfil-container textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Botón guardar */
+.btn-guardar {
+  background-color: #e60023;
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.btn-guardar:hover {
+  background-color: #c2001d;
+}
+
+/* Responsive para móvil */
+@media (max-width: 600px) {
+  .perfil-container {
+    padding: 20px;
+    margin: 20px;
+  }
+}
+
+
+/* ---------- LOADER ---------- */
+.perfil-cargando {
+  text-align: center;
+  margin-top: 100px;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* ---------- RESPONSIVE (MÓVIL) ---------- */
+@media screen and (max-width: 900px) {
+  .perfil-wrapper {
+    height: auto;
+    padding: 40px 20px;
+  }
+
+  .perfil-layout {
+    flex-direction: column;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  .perfil-sidebar,
+  .perfil-main {
+    width: 100%;
+    padding: 1.5rem;
+  }
+
+  .perfil-sidebar {
+    border-bottom: 1px solid #ddd;
+  }
+
+  .perfil-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .perfil-nombres h2 {
+    font-size: 1.4rem;
+  }
+}
+

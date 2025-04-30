@@ -1,0 +1,237 @@
+/* Reset global */
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Wrapper */
+.home-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #fff;
+}
+
+/* Header */
+.home-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #b70000;
+  color: #fff;
+  padding: 15px 20px;
+  font-weight: bold;
+  font-size: 20px;
+  z-index: 1000;
+}
+
+/* Hero Section */
+.home-hero {
+  background-image: url('https://i.pinimg.com/736x/4b/88/d7/4b88d7a27b3eb22035522a4e4c32caf9.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  color: white;
+}
+
+.home-overlay {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.home-hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+  max-width: 800px;
+}
+
+.home-hero-content h1 {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+}
+
+.home-hero-content span {
+  color: #ffdddd;
+}
+
+.home-cta-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.btn-primary,
+.btn-outline {
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  max-width: 250px;
+  width: 100%;
+  text-align: center;
+  transition: 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #d10000;
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #a00000;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* About */
+.home-about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.home-about h2 {
+  color: #b70000;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.about-text {
+  max-width: 600px;
+}
+
+.about-icon {
+  font-size: 40px;
+  margin-top: 20px;
+}
+
+/* Benefits */
+.home-benefits {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.home-benefits h2 {
+  font-size: 2rem;
+  color: #b70000;
+  margin-bottom: 30px;
+}
+
+.benefit-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 10px;
+  width: 250px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Testimonials */
+.home-testimonials {
+  background-color: #f4f4f4;
+  padding: 60px 20px;
+  text-align: center;
+  font-style: italic;
+}
+
+.home-testimonials h2 {
+  color: #b70000;
+  margin-bottom: 20px;
+}
+
+.home-testimonials blockquote {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.home-testimonials cite {
+  font-style: normal;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Contact section */
+.home-contact {
+  background-color: #fff;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.home-contact h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.home-contact p {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.home-contact a {
+  color: #b70000;
+  text-decoration: none;
+}
+
+/* Footer */
+.home-footer {
+  background-color: #b70000;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .home-cta-buttons {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .home-about {
+    flex-direction: row;
+    justify-content: center;
+    text-align: left;
+  }
+
+  .about-text {
+    margin-right: 40px;
+  }
+}
