@@ -1,13 +1,12 @@
-FROM node:18
+FROM node:18 as build
 
 WORKDIR /app
-
-
 COPY . .
 RUN npm install
-RUN npm install react-router-dom
+RUN npm run build
 
-COPY . .
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
 
-EXPOSE 3000
-CMD ["npm", "run", "dev", "--", "--host"]
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

@@ -15,7 +15,7 @@ const Perfil = () => {
     const obtenerUsuario = async () => {
       try {
         const token = localStorage.getItem('token');
-        const respuesta = await fetch('http://wikiclone.info:5000/api/usuario/me', {
+        const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/api/usuario/me`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -53,7 +53,7 @@ const Perfil = () => {
           <div className="perfil-main">
             <div className="perfil-header">
               <img
-                src={`http://wikiclone.info:5000${usuario.foto}`}
+                src={`${import.meta.env.VITE_API_URL}${usuario.foto}`}
                 alt="Foto de perfil"
                 className="perfil-foto"
               />

@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: mindy-backend
+    env: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: MONGO_URI
+        value: mongodb+srv://jonathan:1234@clustermindy.5b4dixw.mongodb.net/?retryWrites=true&w=majority&appName=ClusterMindy
+      - key: JWT_SECRET
+        value: miclaveultrasecreta
+
+  - type: web
+    name: mindy-frontend
+    env: docker
+    plan: free
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: .
+    dependsOn:
+      - mindy-backend

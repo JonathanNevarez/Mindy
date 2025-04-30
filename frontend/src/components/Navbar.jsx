@@ -40,7 +40,7 @@ const Navbar = () => {
         const token = localStorage.getItem('token');
         if (!token) return;
 
-        const respuesta = await fetch('http://wikiclone.info:5000/api/usuario/me', {
+        const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/api/usuario/me`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ const Navbar = () => {
           if (usuario.foto.startsWith('http')) {
             setFotoPerfil(usuario.foto);
           } else {
-            setFotoPerfil(`http://wikiclone.info:5000${usuario.foto}`);
+            setFotoPerfil(`${import.meta.env.VITE_API_URL}${usuario.foto}`);
           }
         }
       } catch (error) {
