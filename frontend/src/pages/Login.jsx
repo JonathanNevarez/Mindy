@@ -22,7 +22,7 @@ const Login = () => {
     setError('');
 
     try {
-      const res = await fetch('http://192.168.44.237:5000/api/auth/login', {
+      const res = await fetch('http://wikiclone.info:5000/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

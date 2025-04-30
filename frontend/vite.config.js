@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://192.168.44.237:5000',
+        target: 'http://wikiclone.info:5000',
         changeOrigin: true,
         secure: false,
       },

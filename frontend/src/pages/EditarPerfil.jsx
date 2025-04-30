@@ -30,7 +30,7 @@ const EditarPerfil = () => {
     const obtenerUsuario = async () => {
       try {
         const token = localStorage.getItem('token');
-        const respuesta = await fetch('http://192.168.44.237:5000/api/usuario/me', {
+        const respuesta = await fetch('http://wikiclone.info:5000/api/usuario/me', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -50,7 +50,7 @@ const EditarPerfil = () => {
           if (usuario.foto.startsWith('http')) {
             setPreview(usuario.foto);
           } else {
-            setPreview(`http://192.168.44.237:5000${usuario.foto}`);
+            setPreview(`http://wikiclone.info:5000${usuario.foto}`);
           }
         } else {
           setPreview('');
