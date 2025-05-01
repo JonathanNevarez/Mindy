@@ -21,6 +21,8 @@ const handleSubmit = async e => {
   e.preventDefault();
   setError('');
 
+  console.log(import.meta.env.VITE_API_URL); // <-- Aquí
+
   try {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
       method: 'POST',
