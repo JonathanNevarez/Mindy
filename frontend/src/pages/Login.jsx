@@ -24,7 +24,7 @@ const handleSubmit = async e => {
   console.log(import.meta.env.VITE_API_URL); // <-- Aquí
 
   try {
-    const res = await fetch(`https://wikiclone.info/api/auth/login`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
