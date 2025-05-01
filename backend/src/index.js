@@ -9,7 +9,7 @@ const app = express();
 
 // CORS CONFIGURADO PARA TU DOMINIO PERSONALIZADO
 app.use(cors({
-  origin: ['https://wikiclone.info', 'https://penclone.info'], // reemplaza con los correctos
+  origin: ['https://penclone.info'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
