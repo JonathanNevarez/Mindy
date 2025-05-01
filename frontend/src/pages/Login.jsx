@@ -17,32 +17,36 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    setError('');
+const handleSubmit = async e => {
+  e.preventDefault();
+  setError('');
 
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+
+    let data = {};
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || 'Error al iniciar sesión');
-      }
-
-      localStorage.setItem('token', data.token);
-      navigate('/inicio'); // o donde quieras redirigir después de login
-    } catch (err) {
-      setError(err.message);
+      data = await res.json(); // intenta parsear JSON
+    } catch (jsonErr) {
+      throw new Error('Respuesta inesperada del servidor');
     }
-  };
 
+    if (!res.ok) {
+      throw new Error(data.message || 'Error al iniciar sesión');
+    }
+
+    localStorage.setItem('token', data.token);
+    navigate('/inicio');
+  } catch (err) {
+    setError(err.message);
+  }
+};
   return (
     <div className="auth-wrapper">
       <div className="auth-box">
