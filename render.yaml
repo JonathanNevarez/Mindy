@@ -19,6 +19,6 @@ services:
       - key: PORT
         value: 5000
       - key: MONGO_URI
-        value: tu-uri
+        value: mongodb+srv://jonathan:1234@clustermindy.5b4dixw.mongodb.net/?retryWrites=true&w=majority&appName=ClusterMindy
       - key: JWT_SECRET
-        value: tu-clave
+        value: miclaveultrasecreta
