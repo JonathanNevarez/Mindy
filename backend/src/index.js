@@ -6,14 +6,7 @@ const connectDB = require('./db');
 const path = require('path');
 
 const app = express();
-
-// CORS CONFIGURADO PARA TU DOMINIO PERSONALIZADO
-app.use(cors({
-  origin: ['https://penclone.info'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-}));
-
+app.use(cors());
 app.use(express.json());
 app.use('/api/usuario', userRoutes);
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
