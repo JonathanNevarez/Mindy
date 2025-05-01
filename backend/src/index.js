@@ -6,13 +6,16 @@ const connectDB = require('./db');
 const path = require('path');
 
 const app = express();
-app.use(cors());
+
+// CORS CONFIGURADO PARA TU DOMINIO PERSONALIZADO
+app.use(cors({
+  origin: ['https://peneclone.info'],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use('/api/usuario', userRoutes);
-// Para servir las imágenes guardadas
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-
-// Para usar la nueva ruta
 app.use('/api/upload', require('./routes/upload.routes'));
 
 // Conexión a MongoDB
