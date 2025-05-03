@@ -46,16 +46,9 @@ const EditarPerfil = () => {
           foto: usuario.foto || ''
         });
 
-        if (usuario.foto) {
-          if (usuario.foto.startsWith('http')) {
-            setPreview(usuario.foto);
-          } else {
-            setPreview(`${import.meta.env.VITE_API_URL}${usuario.foto}`);
-          }
-        } else {
-          setPreview('');
-        }
-
+        setPreview(usuario.foto?.startsWith('http')
+          ? usuario.foto
+          : `${import.meta.env.VITE_API_URL}${usuario.foto}`);
       } catch (error) {
         console.error('Error al obtener el perfil para editar:', error);
       }
@@ -80,19 +73,19 @@ const EditarPerfil = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('No se encontró un token. Por favor inicia sesión nuevamente.');
+      alert('Sesión expirada. Vuelve a iniciar sesión.');
       return;
     }
 
     try {
+      // 1. Subir imagen a backend (Cloudinary)
       if (imagen) {
         const formData = new FormData();
         formData.append('foto', imagen);
 
-        const res = await fetch('/api/upload', {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/upload`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -106,7 +99,8 @@ const EditarPerfil = () => {
         }
       }
 
-      const perfilRes = await fetch('/api/usuario/me', {
+      // 2. Guardar cambios en el perfil
+      const perfilRes = await fetch(`${import.meta.env.VITE_API_URL}/api/usuario/me`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -115,12 +109,10 @@ const EditarPerfil = () => {
         body: JSON.stringify(form),
       });
 
-      const respuestaTexto = await perfilRes.text();
-      try {
-        const data = JSON.parse(respuestaTexto);
+      if (perfilRes.ok) {
         navigate('/perfil');
-      } catch (error) {
-        console.warn('⚠️ La respuesta no era JSON válido');
+      } else {
+        alert('Error al actualizar el perfil');
       }
 
     } catch (err) {
@@ -132,18 +124,10 @@ const EditarPerfil = () => {
   return (
     <div className="perfil-container">
       <h2>Editar Perfil</h2>
-
       <form onSubmit={handleSubmit}>
 
-       <label>Foto de perfil</label>
-
-        {preview && (
-          <img
-            src={preview}
-            alt="Vista previa"
-          />
-        )}
-
+        <label>Foto de perfil</label>
+        {preview && <img src={preview} alt="Vista previa" />}
         <input type="file" accept="image/*" onChange={handleImagen} />
 
         <label>Carrera</label>
@@ -171,18 +155,17 @@ const EditarPerfil = () => {
           placeholder="Ej. Matemáticas, Química"
         />
 
-        <label>Bibliografía</label>
+        <label>Biografía</label>
         <textarea
           name="biografia"
           value={form.biografia}
           onChange={handleChange}
-          placeholder="Comparte algo sobre ti o tus lecturas favoritas..."
+          placeholder="Comparte algo sobre ti..."
         />
 
         <button type="submit" className="btn-guardar">
           Guardar Cambios
         </button>
-
       </form>
     </div>
   );
