@@ -30,32 +30,13 @@ const Login = () => {
         body: JSON.stringify(formData)
       });
 
-      let data = {};
-      try {
-        data = await res.json();
-      } catch {
-        throw new Error('Respuesta inesperada del servidor');
-      }
+      const data = await res.json();
 
       if (!res.ok) {
         throw new Error(data.message || 'Error al iniciar sesión');
       }
 
       localStorage.setItem('token', data.token);
-
-      // Obtener los datos del usuario con el token
-      const userRes = await fetch(`${import.meta.env.VITE_API_URL}/api/usuario/me`, {
-        headers: {
-          Authorization: `Bearer ${data.token}`
-        }
-      });
-
-      const user = await userRes.json();
-
-      if (user.foto) {
-        localStorage.setItem('foto', user.foto);
-      }
-
       navigate('/inicio');
     } catch (err) {
       setError(err.message);
