@@ -1,81 +1,94 @@
-import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar'; // Asegúrate de que la ruta esté bien
-import './Perfil.css';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Login.css';
 
-const Perfil = () => {
-  const [usuario, setUsuario] = useState(null);
+const Login = () => {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+  const [error, setError] = useState('');
 
-  const irAEditarPerfil = () => {
-    navigate('/editarperfil');
+  const handleChange = e => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
   };
 
-  useEffect(() => {
-    const obtenerUsuario = async () => {
+  const handleSubmit = async e => {
+    e.preventDefault();
+    setError('');
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      let data = {};
       try {
-        const token = localStorage.getItem('token');
-        const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/api/usuario/me`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-        const datos = await respuesta.json();
-        setUsuario(datos);
-      } catch (error) {
-        console.error('Error al obtener el perfil:', error);
+        data = await res.json();
+      } catch {
+        throw new Error('Respuesta inesperada del servidor');
       }
-    };
 
-    obtenerUsuario();
-  }, []);
+      if (!res.ok) {
+        throw new Error(data.message || 'Error al iniciar sesión');
+      }
 
-  if (!usuario) return <div className="perfil-cargando">Cargando perfil...</div>;
+      localStorage.setItem('token', data.token);
+
+      // Obtener los datos del usuario con el token
+      const userRes = await fetch(`${import.meta.env.VITE_API_URL}/api/usuario/me`, {
+        headers: {
+          Authorization: `Bearer ${data.token}`
+        }
+      });
+
+      const user = await userRes.json();
+
+      if (user.foto) {
+        localStorage.setItem('foto', user.foto);
+      }
+
+      navigate('/inicio');
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   return (
-    <>
-      <Navbar />
-
-      <div className="perfil-wrapper">
-        <div className="perfil-layout">
-
-          {/* Columna izquierda */}
-          <div className="perfil-sidebar">
-            <h3>information del perfil</h3>
-            <p><strong>Biografía:</strong> {usuario.biografia}</p>
-            <p><strong>Carrera:</strong> {usuario.carrera}</p>
-            <p><strong>Semestre:</strong> {usuario.semestre}</p>
-            <p><strong>Materias Fuertes:</strong> {usuario.materiasFuertes}</p>
-          </div>
-
-          {/* Columna derecha */}
-          <div className="perfil-main">
-            <div className="perfil-header">
-              <img
-                src={`${import.meta.env.VITE_API_URL}${usuario.foto}`}
-                alt="Foto de perfil"
-                className="perfil-foto"
-              />
-              <div className="perfil-nombres">
-                <h2>{usuario.name}</h2>
-                <p className="username">@{usuario.username}</p>
-                <button className="btn-editar-perfil" onClick={irAEditarPerfil}>
-                  Editar perfil
-                </button>
-                <div className="perfil-stats">
-                  <span>0 publicaciones</span>
-                  <span>1 seguidor</span>
-                  <span>0 seguidos</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
+    <div className="auth-wrapper">
+      <div className="auth-box">
+        <h2>Iniciar sesión</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            name="email"
+            placeholder="Correo"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Contraseña"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+          <button className="auth-btn" type="submit">Entrar</button>
+        </form>
+        {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
       </div>
-    </>
+    </div>
   );
 };
 
-export default Perfil;
+export default Login;
