@@ -24,15 +24,15 @@ const EditarPerfil = () => {
     'Tecnologías de la Información'
   ];
 
-  const semestres = Array.from({ length: 9 }, (_, i) => `PAO${i}`);
+  const semestres = Array.from({ length: 9 }, (_, i) => PAO${i});
 
   useEffect(() => {
     const obtenerUsuario = async () => {
       try {
         const token = localStorage.getItem('token');
-        const respuesta = await fetch(`https://wikiclone.info/api/usuario/me`, {
+        const respuesta = await fetch(${import.meta.env.VITE_API_URL}/api/usuario/me, {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            'Authorization': Bearer ${token},
             'Content-Type': 'application/json'
           }
         });
@@ -48,7 +48,7 @@ const EditarPerfil = () => {
 
         setPreview(usuario.foto?.startsWith('http')
           ? usuario.foto
-          : `https://wikiclone.info${usuario.foto}`);
+          : ${import.meta.env.VITE_API_URL}${usuario.foto});
       } catch (error) {
         console.error('Error al obtener el perfil para editar:', error);
       }
@@ -85,10 +85,10 @@ const EditarPerfil = () => {
         const formData = new FormData();
         formData.append('foto', imagen);
 
-        const res = await fetch(`https://wikiclone.info/api/upload`, {
+        const res = await fetch(${import.meta.env.VITE_API_URL}/api/upload, {
           method: 'POST',
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: Bearer ${token},
           },
           body: formData,
         });
@@ -100,10 +100,10 @@ const EditarPerfil = () => {
       }
 
       // 2. Guardar cambios en el perfil
-      const perfilRes = await fetch(`https://wikiclone.info/api/usuario/me`, {
+      const perfilRes = await fetch(${import.meta.env.VITE_API_URL}/api/usuario/me, {
         method: 'PUT',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: Bearer ${token},
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(form),
