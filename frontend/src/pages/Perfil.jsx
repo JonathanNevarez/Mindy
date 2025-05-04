@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import './Perfil.css';
 import { useNavigate } from 'react-router-dom';
+import { UserCircleIcon } from '@heroicons/react/24/solid';
 
 const Perfil = () => {
   const [usuario, setUsuario] = useState(null);
@@ -33,10 +34,12 @@ const Perfil = () => {
 
   if (!usuario) return <div className="perfil-cargando">Cargando perfil...</div>;
 
-  // Construir la URL de la imagen correctamente
-  const fotoUrl = usuario.foto?.startsWith('http')
-    ? usuario.foto
-    : `${import.meta.env.VITE_API_URL}${usuario.foto}`;
+  const tieneFoto = usuario.foto && usuario.foto.trim() !== '';
+  const fotoUrl = tieneFoto
+    ? (usuario.foto.startsWith('http')
+      ? usuario.foto
+      : `${import.meta.env.VITE_API_URL}${usuario.foto}`)
+    : null;
 
   return (
     <>
@@ -57,11 +60,15 @@ const Perfil = () => {
           {/* Columna derecha */}
           <div className="perfil-main">
             <div className="perfil-header">
-              <img
-                src={fotoUrl}
-                alt="Foto de perfil"
-                className="perfil-foto"
-              />
+              {tieneFoto ? (
+                <img
+                  src={fotoUrl}
+                  alt="Foto de perfil"
+                  className="perfil-foto"
+                />
+              ) : (
+                <UserCircleIcon className="perfil-foto-icon" />
+              )}
               <div className="perfil-nombres">
                 <h2>{usuario.name}</h2>
                 <p className="username">@{usuario.username}</p>
