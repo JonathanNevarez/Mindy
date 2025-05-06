@@ -1,16 +1,24 @@
 /* Barra de búsqueda */
+.navbar-search-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  position: relative;
+}
+
 .navbar-search {
-  width: 400px; /* Aumenta el tamaño para mayor visibilidad */
-  padding: 12px; /* Más padding para una mejor apariencia */
-  font-size: 16px; /* Aumento el tamaño de la fuente */
+  width: 500px;  /* Agrandar el tamaño inicial */
+  padding: 12px 15px;
+  font-size: 16px;
   border-radius: 8px;
   border: 1px solid #ccc;
-  margin-top: 10px;
+  margin-top: 20px;
   transition: width 0.3s ease;
 }
 
 .navbar-search:focus {
-  width: 450px; /* Expande al tener el foco */
+  width: 550px;  /* Agranda al tener el foco */
   border-color: #007bff;
 }
 
@@ -18,39 +26,42 @@
 .search-results {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centra los resultados */
-  gap: 20px; /* Más espacio entre los resultados */
+  align-items: center;  /* Centra los resultados */
+  gap: 15px;  /* Mayor separación entre los resultados */
   margin-top: 20px;
+  width: 100%;  /* Se ajusta al ancho disponible */
+  max-width: 800px; /* Para evitar que se estire demasiado */
+  margin: 20px auto; /* Centra los resultados en la página */
 }
 
 /* Estilo para cada usuario en los resultados */
 .search-item {
   display: flex;
   align-items: center;
-  gap: 15px;
-  background-color: #f7f7f7; /* Fondo suave */
+  gap: 20px;
+  background-color: #f7f7f7;
   padding: 15px;
-  border-radius: 10px; /* Bordes redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-  width: 90%; /* Ajusta el tamaño de los resultados */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
   max-width: 700px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .search-item:hover {
-  background-color: #e2e8f0; /* Cambia de color al pasar el mouse */
+  background-color: #e2e8f0;
 }
 
 .search-item img {
-  width: 50px; /* Tamanho uniforme para las fotos */
+  width: 50px; /* Tamaño uniforme para las fotos */
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
 }
 
 .search-item .profile-icon {
-  width: 50px; /* Tamanho uniforme para los iconos de perfil */
+  width: 50px; /* Icono de perfil uniforme */
   height: 50px;
 }
 
@@ -60,46 +71,11 @@
 }
 
 .search-item strong {
-  font-size: 16px; /* Ajuste de tamaño */
+  font-size: 16px;
   font-weight: 600;
 }
 
 .search-item p {
-  font-size: 14px; /* Tamaño adecuado para el username */
-  color: #6B7280; /* Gris para el texto */
-}
-
-/* Ajustar los iconos en el navbar */
-.profile-photo {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.navbar-icons .icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 15px;
-}
-
-/* Notificaciones */
-.notification-icon {
-  position: relative;
-}
-
-.notification-badge {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  background-color: #EF4444; /* Red-500 */
-  color: white;
-  font-size: 10px;
-  font-weight: bold;
-  border-radius: 9999px;
-  width: 16px;
-  height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 14px;
+  color: #6B7280;
 }
