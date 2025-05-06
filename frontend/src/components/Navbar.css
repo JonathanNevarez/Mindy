@@ -16,15 +16,6 @@
   color: red; /* Indigo-600 */
 }
 
-.navbar-search {
-  flex: 1;
-  margin: 0 20px;
-  padding: 8px 16px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 0.9rem;
-}
-
 .navbar-icons {
   display: flex;
   align-items: center;
@@ -99,35 +90,68 @@
   object-fit: cover;
 }
 
-.search-results {
-  position: absolute;
-  top: 60px;
-  left: 10px;
+/* Barra de búsqueda */
+.navbar-search {
   width: 300px;
-  background: white;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
   border: 1px solid #ccc;
-  max-height: 300px;
-  overflow-y: auto;
-  z-index: 10;
-  padding: 5px;
+  margin-top: 10px;
+  margin-right: 10px;
+  transition: width 0.3s ease;
 }
 
-.search-item {
+.navbar-search:focus {
+  width: 350px; /* Se agranda al tener el foco */
+  border-color: #007bff;
+}
+
+/* Estilo para los resultados de búsqueda */
+.search-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra los resultados */
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Estilo para cada usuario en los resultados */
+.search-result-item {
   display: flex;
   align-items: center;
-  padding: 6px;
-  border-bottom: 1px solid #eee;
-  cursor: pointer;
+  gap: 15px;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 600px;
 }
 
-.search-item:hover {
-  background-color: #f2f2f2;
-}
-
-.search-foto {
+.search-result-item img {
   width: 40px;
   height: 40px;
-  object-fit: cover;
   border-radius: 50%;
-  margin-right: 10px;
+  object-fit: cover;
+}
+
+/* Añadir una separación entre los resultados */
+.search-result-item + .search-result-item {
+  margin-top: 10px;
+}
+
+/* Estilo para la foto de perfil en el navbar */
+.profile-photo {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Para los iconos en el navbar */
+.navbar-icons .icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
 }
