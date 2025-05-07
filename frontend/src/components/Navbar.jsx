@@ -16,7 +16,7 @@ const Navbar = () => {
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   const handleProfileClick = () => {
-    navigate('/perfil');
+    navigate('/usuario');
     setMenuOpen(false);
   };
 
@@ -48,6 +48,11 @@ const Navbar = () => {
     } catch (err) {
       console.error('Error en la búsqueda:', err);
     }
+  };
+
+  const handleUserClick = (userId) => {
+    // Redirige al perfil del usuario
+    navigate(`/perfil/${userId}`);
   };
 
   useEffect(() => {
@@ -103,7 +108,11 @@ const Navbar = () => {
         {resultados.length > 0 && (
           <div className="search-results">
             {resultados.map((usuario) => (
-              <div key={usuario._id} className="search-item">
+              <div
+                key={usuario._id}
+                className="search-item"
+                onClick={() => handleUserClick(usuario._id)}
+              >
                 {usuario.foto ? (
                   <img src={usuario.foto} alt="Foto" className="search-foto" />
                 ) : (
