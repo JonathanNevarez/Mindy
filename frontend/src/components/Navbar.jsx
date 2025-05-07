@@ -16,7 +16,7 @@ const Navbar = () => {
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   const handleProfileClick = () => {
-    navigate('/usuario');
+    navigate('/perfil');
     setMenuOpen(false);
   };
 
@@ -51,8 +51,8 @@ const Navbar = () => {
   };
 
   const handleUserClick = (userId) => {
-    // Redirige al perfil del usuario
-    navigate(`/perfil/${userId}`);
+    // Redirige al perfil del usuario específico
+    navigate(`/usuario/${userId}`);
   };
 
   useEffect(() => {
@@ -111,7 +111,7 @@ const Navbar = () => {
               <div
                 key={usuario._id}
                 className="search-item"
-                onClick={() => handleUserClick(usuario._id)}
+                onClick={() => handleUserClick(usuario._id)} // Al hacer clic, redirige al perfil del usuario
               >
                 {usuario.foto ? (
                   <img src={usuario.foto} alt="Foto" className="search-foto" />
