@@ -13,9 +13,16 @@ const Navbar = () => {
   const menuRef = useRef(null);
   const navigate = useNavigate();
 
-
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
+  const handleProfileClick = () => {
+    navigate('/perfil');
+    setMenuOpen(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
     setMenuOpen(false);
   };
 
@@ -44,11 +51,25 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = async (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    const obtenerFoto = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
         const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/api/usuario/me`, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         });
@@ -61,10 +82,14 @@ const Navbar = () => {
         }
       } catch (error) {
         console.error('Error al cargar foto de perfil:', error);
+      }
+    };
+
+    obtenerFoto();
+  }, []);
 
   return (
     <header className="navbar">
-
       <div className="navbar-logo">Mindy</div>
 
       <div className="navbar-search-container">
@@ -94,16 +119,13 @@ const Navbar = () => {
         )}
       </div>
 
-
       <div className="navbar-icons">
-
         <div className="notification-icon">
           <BellIcon className="icon" />
           {notifications > 0 && (
             <span className="notification-badge">{notifications}</span>
           )}
         </div>
-
 
         <div className="user-icon-container" onClick={toggleMenu}>
           {fotoPerfil ? (
