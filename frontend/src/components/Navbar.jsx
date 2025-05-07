@@ -8,6 +8,7 @@ const Navbar = () => {
   const [notifications, setNotifications] = useState(2);
   const [menuOpen, setMenuOpen] = useState(false);
   const [fotoPerfil, setFotoPerfil] = useState('');
+  const [userId, setUserId] = useState('');
   const [busqueda, setBusqueda] = useState('');
   const [resultados, setResultados] = useState([]);
   const menuRef = useRef(null);
@@ -16,7 +17,7 @@ const Navbar = () => {
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   const handleProfileClick = () => {
-    navigate('/perfil');
+    navigate(`/usuario/${userId}`);  // Redirige al perfil del usuario autenticado
     setMenuOpen(false);
   };
 
@@ -85,6 +86,7 @@ const Navbar = () => {
         } else if (usuario.foto) {
           setFotoPerfil(`${import.meta.env.VITE_API_URL}${usuario.foto}`);
         }
+        setUserId(usuario._id);  // Almacena el userId del usuario autenticado
       } catch (error) {
         console.error('Error al cargar foto de perfil:', error);
       }
@@ -111,7 +113,7 @@ const Navbar = () => {
               <div
                 key={usuario._id}
                 className="search-item"
-                onClick={() => handleUserClick(usuario._id)} // Al hacer clic, redirige al perfil del usuario
+                onClick={() => handleUserClick(usuario._id)} // Redirige al perfil del usuario
               >
                 {usuario.foto ? (
                   <img src={usuario.foto} alt="Foto" className="search-foto" />
