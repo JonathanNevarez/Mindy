@@ -5,6 +5,7 @@ import './Perfil.css';
 
 const PerfilUsuario = () => {
   const [usuario, setUsuario] = useState(null);
+  const [loading, setLoading] = useState(true); // Controla el estado de carga
   const { id } = useParams();
 
   useEffect(() => {
@@ -18,17 +19,30 @@ const PerfilUsuario = () => {
           },
         });
 
+        if (!respuesta.ok) {
+          throw new Error('Error al obtener los datos del usuario');
+        }
+
         const datos = await respuesta.json();
+        console.log('Datos del usuario:', datos); // Verifica que los datos sean correctos
         setUsuario(datos);
       } catch (error) {
         console.error('Error al obtener el perfil del usuario:', error);
+      } finally {
+        setLoading(false); // Finaliza el estado de carga
       }
     };
 
     obtenerUsuario();
   }, [id]);
 
-  if (!usuario) return <div className="perfil-cargando">Cargando perfil público...</div>;
+  if (loading) {
+    return <div className="perfil-cargando">Cargando perfil público...</div>; // Muestra "Cargando..." mientras se obtiene la información
+  }
+
+  if (!usuario) {
+    return <div className="perfil-error">No se encontró el usuario</div>; // Si no se obtiene el usuario, muestra un mensaje de error
+  }
 
   return (
     <>
