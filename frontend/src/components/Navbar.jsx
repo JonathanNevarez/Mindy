@@ -51,7 +51,7 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    const handleClickOutside = async (event) => {
+    const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setMenuOpen(false);
       }
