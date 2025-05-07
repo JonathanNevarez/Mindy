@@ -17,7 +17,9 @@ const Navbar = () => {
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   const handleProfileClick = () => {
-    navigate(`/usuario/${userId}`);  // Redirige al perfil del usuario autenticado
+    if (userId) {
+      navigate(`/usuario/${userId}`); // Redirige al perfil del usuario autenticado
+    }
     setMenuOpen(false);
   };
 
