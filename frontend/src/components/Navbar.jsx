@@ -44,7 +44,6 @@ const Navbar = () => {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
-@@ -52,61 +52,61 @@
           if (usuario.foto.startsWith('http')) {
             setFotoPerfil(usuario.foto);
           } else {
