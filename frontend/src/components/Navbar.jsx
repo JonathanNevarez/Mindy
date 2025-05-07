@@ -13,37 +13,22 @@ const Navbar = () => {
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
-  const handleProfileClick = () => {
-    navigate('/perfil');
-    setMenuOpen(false);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/login');
     setMenuOpen(false);
   };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setMenuOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    const obtenerFoto = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) return;
 
         const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/api/usuario/me`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
+          },
+        });
+
+        const usuario = await respuesta.json();
+        if (usuario.foto) {
           if (usuario.foto.startsWith('http')) {
             setFotoPerfil(usuario.foto);
           } else {
@@ -52,11 +37,6 @@ const Navbar = () => {
         }
       } catch (error) {
         console.error('Error al cargar foto de perfil:', error);
-      }
-    };
-
-    obtenerFoto();
-  }, []);
 
   return (
     <header className="navbar">
@@ -69,7 +49,6 @@ const Navbar = () => {
         placeholder="Buscar..."
         className="navbar-search"
       />
-
       {/* Iconos */}
       <div className="navbar-icons">
         {/* Notificaciones */}
