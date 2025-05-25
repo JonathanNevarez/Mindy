@@ -91,4 +91,31 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
+// 🔎 Verificar si ya hay una solicitud pendiente entre el usuario actual y otro
+router.post('/estado', auth, async (req, res) => {
+  const { receptorUsername } = req.body;
+
+  try {
+    const receptor = await User.findOne({ username: receptorUsername });
+    if (!receptor) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    const solicitud = await Solicitud.findOne({
+      emisor: req.user.id,
+      receptor: receptor._id,
+      estado: 'pendiente'
+    });
+
+    if (solicitud) {
+      return res.json({ estado: 'pendiente' });
+    }
+
+    return res.json({ estado: 'ninguna' });
+  } catch (error) {
+    console.error('❌ Error al verificar solicitud:', error);
+    res.status(500).json({ error: 'Error al verificar estado de solicitud' });
+  }
+});
+
 module.exports = router;

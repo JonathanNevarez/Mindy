@@ -23,9 +23,7 @@ const PerfilUsuario = () => {
         const resPerfil = await fetch(
           `${import.meta.env.VITE_API_URL}/api/usuario/username/${cleanUsername}`,
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
         if (!resPerfil.ok) throw new Error('Usuario no encontrado');
@@ -34,9 +32,7 @@ const PerfilUsuario = () => {
 
         // Obtener usuario autenticado
         const resMe = await fetch(`${import.meta.env.VITE_API_URL}/api/usuario/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         const me = await resMe.json();
         setUsuarioActual(me);
@@ -47,20 +43,19 @@ const PerfilUsuario = () => {
           return;
         }
 
-        // Si no son amigos y no es uno mismo, verificar si ya fue enviada solicitud
+        // Verificar si ya se envió solicitud (sin crearla)
         if (me._id !== perfil._id) {
-          const check = await fetch(`${import.meta.env.VITE_API_URL}/api/solicitudes`, {
+          const estado = await fetch(`${import.meta.env.VITE_API_URL}/api/solicitudes/estado`, {
             method: 'POST',
             headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ receptorId: perfil._id }),
+            body: JSON.stringify({ receptorUsername: cleanUsername }),
           });
 
-          if (check.status === 400 || check.status === 201) {
-            setYaSolicitado(true);
-          }
+          const data = await estado.json();
+          if (data.estado === 'pendiente') setYaSolicitado(true);
         }
       } catch (err) {
         console.error('Error al obtener datos:', err);
@@ -122,8 +117,9 @@ const PerfilUsuario = () => {
                   className="perfil-foto"
                 />
               ) : (
-                <UserCircleIcon className="perfil-foto" />
+                <UserCircleIcon className="perfil-foto-icon" />
               )}
+
               <div className="perfil-nombres">
                 <h2>{usuario.name}</h2>
                 <p className="username">@{usuario.username}</p>
