@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
     trim: true
   },
-    username: {
+  username: {
     type: String,
     required: true,
     unique: true,
@@ -23,21 +24,25 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 8
   },
-    carrera: {
+  carrera: {
     type: String
   },
-    semestre: {
+  semestre: {
     type: String
   },
-    materiasFuertes: {
+  materiasFuertes: {
     type: String
   },
-    biografia: {
+  biografia: {
     type: String
   },
-    foto: {
+  foto: {
     type: String
-  }
+  },
+  amigos: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }]
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth.middleware');
 const Solicitud = require('../models/Solicitud');
+const User = require('../models/User');
 
 // 📨 Crear solicitud de amistad
 router.post('/', auth, async (req, res) => {
@@ -50,16 +51,29 @@ router.get('/recibidas', auth, async (req, res) => {
   }
 });
 
-// ✅ Aceptar solicitud
+// ✅ Aceptar solicitud y crear amistad mutua
 router.put('/:id/aceptar', auth, async (req, res) => {
   try {
-    const solicitud = await Solicitud.findOneAndUpdate(
-      { _id: req.params.id, receptor: req.user.id },
-      { estado: 'aceptada' },
-      { new: true }
-    );
-    res.json(solicitud);
+    const solicitud = await Solicitud.findById(req.params.id);
+    if (!solicitud || solicitud.receptor.toString() !== req.user.id) {
+      return res.status(404).json({ message: 'Solicitud no encontrada o no autorizada' });
+    }
+
+    // Agregar ambos usuarios como amigos mutuamente
+    await User.findByIdAndUpdate(solicitud.emisor, {
+      $addToSet: { amigos: solicitud.receptor }
+    });
+
+    await User.findByIdAndUpdate(solicitud.receptor, {
+      $addToSet: { amigos: solicitud.emisor }
+    });
+
+    // Eliminar la solicitud (ya no es necesaria)
+    await solicitud.deleteOne();
+
+    res.json({ message: 'Solicitud aceptada. Ahora son amigos.' });
   } catch (error) {
+    console.error('❌ Error al aceptar solicitud:', error);
     res.status(500).json({ error: 'Error al aceptar solicitud' });
   }
 });

@@ -76,9 +76,7 @@ const Perfil = () => {
                   Editar perfil
                 </button>
                 <div className="perfil-stats">
-                  <span>0 publicaciones</span>
-                  <span>1 seguidor</span>
-                  <span>0 seguidos</span>
+                  <span>{usuario.amigos?.length || 0} amigos</span>
                 </div>
               </div>
             </div>

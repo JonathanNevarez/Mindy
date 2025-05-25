@@ -138,9 +138,7 @@ const PerfilUsuario = () => {
                 )}
 
                 <div className="perfil-stats">
-                  <span>0 publicaciones</span>
-                  <span>0 seguidores</span>
-                  <span>0 seguidos</span>
+                  <span>{usuario.amigos?.length || 0} amigos</span>
                 </div>
               </div>
             </div>
