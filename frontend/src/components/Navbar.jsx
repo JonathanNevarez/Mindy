@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import './Navbar.css';
 import { BellIcon } from '@heroicons/react/24/outline';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [notifications, setNotifications] = useState(2);
@@ -103,7 +103,16 @@ const Navbar = () => {
         {resultados.length > 0 && (
           <div className="search-results">
             {resultados.map((usuario) => (
-              <div key={usuario._id} className="search-item">
+              <Link
+                to={`/perfil/${usuario._id}`}
+                key={usuario._id}
+                className="search-item"
+                onClick={() => {
+                  console.log("Navegando a:", usuario._id);
+                  setBusqueda('');
+                  setResultados([]);
+                }}
+              >
                 {usuario.foto ? (
                   <img src={usuario.foto} alt="Foto" className="search-foto" />
                 ) : (
@@ -113,7 +122,7 @@ const Navbar = () => {
                   <strong>{usuario.name}</strong>
                   <p>@{usuario.username}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
@@ -151,3 +160,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
