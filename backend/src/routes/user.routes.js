@@ -6,7 +6,7 @@ const User = require('../models/User');
 // ✅ Obtener usuario autenticado
 router.get('/me', authMiddleware, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password'); // nunca enviar password
+    const user = await User.findById(req.user.id).select('-password');
     res.json(user);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener los datos del usuario' });
@@ -16,9 +16,6 @@ router.get('/me', authMiddleware, async (req, res) => {
 // ✅ Actualizar perfil del usuario autenticado
 router.put('/me', authMiddleware, async (req, res) => {
   try {
-    console.log('📦 Datos recibidos en req.body:', req.body);
-    console.log('🧑 ID del usuario autenticado:', req.user?.id);
-
     const fields = ['carrera', 'semestre', 'materiasFuertes', 'biografia', 'foto'];
     const updates = {};
 
@@ -28,19 +25,14 @@ router.put('/me', authMiddleware, async (req, res) => {
       }
     });
 
-    console.log('📤 Campos que se actualizarán:', updates);
-
     const user = await User.findByIdAndUpdate(
       req.user.id,
       { $set: updates },
       { new: true }
     ).select('-password');
 
-    console.log('✅ Usuario actualizado:', user);
-
     res.json(user);
   } catch (err) {
-    console.error('❌ Error actualizando perfil:', err);
     res.status(500).json({ error: 'Error al actualizar el perfil' });
   }
 });
@@ -67,7 +59,7 @@ router.get('/buscar', authMiddleware, async (req, res) => {
   }
 });
 
-// ✅ Obtener perfil público por ID
+// ✅ Obtener perfil público por ID (uso interno opcional)
 router.get('/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select('-password -email');
@@ -76,13 +68,13 @@ router.get('/:id', async (req, res) => {
     }
     res.json(user);
   } catch (error) {
-    console.error('❌ Error al obtener perfil público:', error);
+    console.error('❌ Error al obtener perfil por ID:', error);
     res.status(500).json({ message: 'Error al obtener perfil público' });
   }
 });
 
-// 👤 Obtener perfil público por username
-router.get('/:username', authMiddleware, async (req, res) => {
+// ✅ Obtener perfil público por username
+router.get('/username/:username', async (req, res) => {
   try {
     const usuario = await User.findOne({ username: req.params.username }).select('-password -email');
     if (!usuario) {
@@ -90,7 +82,7 @@ router.get('/:username', authMiddleware, async (req, res) => {
     }
     res.json(usuario);
   } catch (error) {
-    console.error('❌ Error al obtener perfil público:', error);
+    console.error('❌ Error al obtener perfil por username:', error);
     res.status(500).json({ message: 'Error al obtener el perfil' });
   }
 });

@@ -50,10 +50,10 @@ const Navbar = () => {
     }
   };
 
-  const handleUserClick = (userId) => {
+  const handleUserClick = (username) => {
     setBusqueda('');
     setResultados([]);
-    navigate(`/usuario/${userId}`);
+    navigate(`/usuario/@${username}`);
   };
 
   useEffect(() => {
@@ -112,7 +112,7 @@ const Navbar = () => {
               <div
                 key={usuario._id}
                 className="search-item"
-                onClick={() => handleUserClick(usuario._id)}
+                onClick={() => handleUserClick(usuario.username)}
               >
                 {usuario.foto ? (
                   <img src={usuario.foto} alt="Foto" className="search-foto" />
