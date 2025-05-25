@@ -17,7 +17,7 @@ const App = () => {
       <Route path="/inicio" element={<ProtectedRoute><Inicio /></ProtectedRoute>} />
       <Route path="/perfil" element={<ProtectedRoute><Perfil /></ProtectedRoute>} />
       <Route path="/editarperfil" element={<ProtectedRoute><EditarPerfil /></ProtectedRoute>} />
-      <Route path="/usuario/@:username" element={<PerfilUsuario />} />
+      <Route path="/usuario/:username" element={<PerfilUsuario />} />
     </Routes>
   );
 };

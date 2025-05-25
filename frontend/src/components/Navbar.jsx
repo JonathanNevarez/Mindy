@@ -53,7 +53,7 @@ const Navbar = () => {
   const handleUserClick = (username) => {
     setBusqueda('');
     setResultados([]);
-    navigate(`/usuario/@${username}`);
+    navigate(`/usuario/${username}`);
   };
 
   useEffect(() => {
