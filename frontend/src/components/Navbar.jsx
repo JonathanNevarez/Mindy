@@ -176,11 +176,15 @@ const Navbar = () => {
               ) : (
                 solicitudes.map((sol) => (
                   <div key={sol._id} className="noti-item">
-                    <img
-                      src={sol.emisor.foto || '/default.png'}
-                      alt="foto"
-                      className="noti-foto"
-                    />
+                    {sol.emisor.foto ? (
+                      <img
+                        src={sol.emisor.foto}
+                        alt="foto"
+                        className="noti-foto"
+                      />
+                    ) : (
+                      <UserCircleIcon className="noti-foto" />
+                    )}
                     <div>
                       <strong>{sol.emisor.name}</strong>
                       <p>@{sol.emisor.username}</p>
