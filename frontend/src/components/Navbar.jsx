@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import './Navbar.css';
 import { BellIcon } from '@heroicons/react/24/outline';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [notifications, setNotifications] = useState(2);
@@ -48,6 +48,12 @@ const Navbar = () => {
     } catch (err) {
       console.error('Error en la búsqueda:', err);
     }
+  };
+
+  const handleUserClick = (userId) => {
+    setBusqueda('');
+    setResultados([]);
+    navigate(`/usuario/${userId}`);
   };
 
   useEffect(() => {
@@ -103,15 +109,10 @@ const Navbar = () => {
         {resultados.length > 0 && (
           <div className="search-results">
             {resultados.map((usuario) => (
-              <Link
-                to={`/perfil/${usuario._id}`}
+              <div
                 key={usuario._id}
                 className="search-item"
-                onClick={() => {
-                  console.log("Navegando a:", usuario._id);
-                  setBusqueda('');
-                  setResultados([]);
-                }}
+                onClick={() => handleUserClick(usuario._id)}
               >
                 {usuario.foto ? (
                   <img src={usuario.foto} alt="Foto" className="search-foto" />
@@ -122,7 +123,7 @@ const Navbar = () => {
                   <strong>{usuario.name}</strong>
                   <p>@{usuario.username}</p>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         )}
@@ -160,4 +161,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

@@ -40,7 +40,7 @@
   max-height: 200px;
   overflow-y: auto;
   border-radius: 6px;
-  z-index: 2000;
+  z-index: 100;
 }
 
 .search-item {
