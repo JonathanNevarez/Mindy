@@ -6,30 +6,34 @@ import './Perfil.css';
 const PerfilUsuario = () => {
   const [usuario, setUsuario] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { username } = useParams();
 
   useEffect(() => {
     const obtenerUsuario = async () => {
       try {
         const token = localStorage.getItem('token');
+        const cleanUsername = username.replace(/^@/, '');
+
         const respuesta = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/usuario/username/${username}`,
+          `${import.meta.env.VITE_API_URL}/api/usuario/username/${cleanUsername}`,
           {
             headers: {
-              'Authorization': `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json',
             },
           }
         );
 
         if (!respuesta.ok) {
-          throw new Error('Error al obtener los datos del usuario');
+          throw new Error('Usuario no encontrado');
         }
 
         const datos = await respuesta.json();
         setUsuario(datos);
       } catch (error) {
         console.error('Error al obtener el perfil del usuario:', error);
+        setError('No se encontró el usuario.');
       } finally {
         setLoading(false);
       }
@@ -38,13 +42,8 @@ const PerfilUsuario = () => {
     obtenerUsuario();
   }, [username]);
 
-  if (loading) {
-    return <div className="perfil-cargando">Cargando perfil público...</div>;
-  }
-
-  if (!usuario) {
-    return <div className="perfil-error">No se encontró el usuario</div>;
-  }
+  if (loading) return <div className="perfil-cargando">Cargando perfil público...</div>;
+  if (error) return <div className="perfil-error">{error}</div>;
 
   return (
     <>
@@ -75,9 +74,7 @@ const PerfilUsuario = () => {
               <div className="perfil-nombres">
                 <h2>{usuario.name}</h2>
                 <p className="username">@{usuario.username}</p>
-                <button className="btn-editar-perfil">
-                  Agregar
-                </button>
+                <button className="btn-editar-perfil">Agregar</button>
                 <div className="perfil-stats">
                   <span>0 publicaciones</span>
                   <span>0 seguidores</span>
