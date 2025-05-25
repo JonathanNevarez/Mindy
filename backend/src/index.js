@@ -4,13 +4,14 @@ const userRoutes = require('./routes/user.routes');
 const cors = require('cors');
 const connectDB = require('./db');
 const path = require('path');
-
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 app.use('/api/usuario', userRoutes);
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use('/api/upload', require('./routes/upload.routes'));
+
 
 // Conexión a MongoDB
 connectDB();
@@ -18,6 +19,8 @@ connectDB();
 // Rutas
 const authRoutes = require('./routes/auth.routes');
 app.use('/api/auth', authRoutes);
+const solicitudRoutes = require('./routes/solicitud.routes');
+app.use('/api/solicitudes', solicitudRoutes);
 
 app.get('/', (req, res) => res.send('Servidor Mindy activo'));
 

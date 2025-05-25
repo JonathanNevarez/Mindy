@@ -5,15 +5,19 @@ import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-  const [notifications, setNotifications] = useState(2);
   const [menuOpen, setMenuOpen] = useState(false);
   const [fotoPerfil, setFotoPerfil] = useState('');
   const [busqueda, setBusqueda] = useState('');
   const [resultados, setResultados] = useState([]);
+  const [solicitudes, setSolicitudes] = useState([]);
+  const [notificacionesAbiertas, setNotificacionesAbiertas] = useState(false);
+
   const menuRef = useRef(null);
+  const notiRef = useRef(null);
   const navigate = useNavigate();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
+  const toggleNotificaciones = () => setNotificacionesAbiertas(!notificacionesAbiertas);
 
   const handleProfileClick = () => {
     navigate('/perfil');
@@ -38,9 +42,7 @@ const Navbar = () => {
     try {
       const token = localStorage.getItem('token');
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/usuario/buscar?q=${query}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       const data = await res.json();
@@ -56,31 +58,50 @@ const Navbar = () => {
     navigate(`/usuario/${username}`);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setMenuOpen(false);
+  const obtenerSolicitudes = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/solicitudes/recibidas`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setSolicitudes(data);
       }
-    };
+    } catch (err) {
+      console.error('Error al obtener solicitudes:', err);
+    }
+  };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  const aceptarSolicitud = async (id) => {
+    const token = localStorage.getItem('token');
+    await fetch(`${import.meta.env.VITE_API_URL}/api/solicitudes/${id}/aceptar`, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    obtenerSolicitudes();
+  };
+
+  const rechazarSolicitud = async (id) => {
+    const token = localStorage.getItem('token');
+    await fetch(`${import.meta.env.VITE_API_URL}/api/solicitudes/${id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    obtenerSolicitudes();
+  };
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
     const obtenerFoto = async () => {
       try {
-        const token = localStorage.getItem('token');
-        if (!token) return;
-
-        const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/api/usuario/me`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/usuario/me`, {
+          headers: { Authorization: `Bearer ${token}` },
         });
 
-        const usuario = await respuesta.json();
+        const usuario = await res.json();
         if (usuario.foto?.startsWith('http')) {
           setFotoPerfil(usuario.foto);
         } else if (usuario.foto) {
@@ -92,6 +113,17 @@ const Navbar = () => {
     };
 
     obtenerFoto();
+    obtenerSolicitudes();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!menuRef.current?.contains(event.target)) setMenuOpen(false);
+      if (!notiRef.current?.contains(event.target)) setNotificacionesAbiertas(false);
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
@@ -130,20 +162,43 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-icons">
-        <div className="notification-icon">
+        <div className="notification-icon" onClick={toggleNotificaciones} ref={notiRef}>
           <BellIcon className="icon" />
-          {notifications > 0 && (
-            <span className="notification-badge">{notifications}</span>
+          {solicitudes.length > 0 && (
+            <span className="notification-badge">{solicitudes.length}</span>
+          )}
+
+          {notificacionesAbiertas && (
+            <div className="notifications-dropdown">
+              <h4>Solicitudes</h4>
+              {solicitudes.length === 0 ? (
+                <p className="noti-vacia">Sin solicitudes</p>
+              ) : (
+                solicitudes.map((sol) => (
+                  <div key={sol._id} className="noti-item">
+                    <img
+                      src={sol.emisor.foto || '/default.png'}
+                      alt="foto"
+                      className="noti-foto"
+                    />
+                    <div>
+                      <strong>{sol.emisor.name}</strong>
+                      <p>@{sol.emisor.username}</p>
+                      <div className="noti-botones">
+                        <button onClick={() => aceptarSolicitud(sol._id)}>Aceptar</button>
+                        <button onClick={() => rechazarSolicitud(sol._id)}>Rechazar</button>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
           )}
         </div>
 
         <div className="user-icon-container" onClick={toggleMenu}>
           {fotoPerfil ? (
-            <img
-              src={fotoPerfil}
-              alt="Perfil"
-              className="icon profile-photo"
-            />
+            <img src={fotoPerfil} alt="Perfil" className="icon profile-photo" />
           ) : (
             <UserCircleIcon className="icon profile-icon" />
           )}
