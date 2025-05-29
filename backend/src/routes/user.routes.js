@@ -90,25 +90,11 @@ router.get('/username/:username', async (req, res) => {
 // ✅ Obtener lista de amigos del usuario autenticado
 router.get('/amigos', authMiddleware, async (req, res) => {
   try {
-    console.log('🧠 Usuario ID:', req.user.id);
-
-    const user = await User.findById(req.user.id);
-
-    if (!user) {
-      console.warn('⚠️ Usuario no encontrado');
-      return res.status(404).json({ error: 'Usuario no encontrado' });
-    }
-
-    console.log('🧾 Amigos (IDs sin populate):', user.amigos); // 🧠
-
-    const amigosPopulados = await User.findById(req.user.id).populate('amigos', 'name username foto');
-
-    console.log('✅ Amigos poblados:', amigosPopulados.amigos); // 👀
-
-    res.json(amigosPopulados.amigos);
+    const user = await User.findById(req.user.id).populate('amigos', 'name username foto');
+    res.json(user.amigos);
   } catch (err) {
-    console.error('❌ Error real:', err);
-    res.status(500).json({ error: 'Error inesperado al obtener amigos' });
+    console.error('❌ Error al obtener amigos:', err);
+    res.status(500).json({ error: 'Error al obtener la lista de amigos' });
   }
 });
 
