@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './Navbar.css';
-import { BellIcon } from '@heroicons/react/24/outline';
+import { BellIcon, ChatBubbleLeftEllipsisIcon } from '@heroicons/react/24/outline';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,6 +18,7 @@ const Navbar = () => {
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const toggleNotificaciones = () => setNotificacionesAbiertas(!notificacionesAbiertas);
+  const irAMensajes = () => navigate('/mensajes');
 
   const handleProfileClick = () => {
     navigate('/perfil');
@@ -128,7 +129,13 @@ const Navbar = () => {
 
   return (
     <header className="navbar">
-      <div className="navbar-logo">Mindy</div>
+      <div
+        className="navbar-logo"
+        onClick={() => navigate('/inicio')}
+        style={{ cursor: 'pointer' }}
+      >
+        Mindy
+      </div>
 
       <div className="navbar-search-container">
         <input
@@ -162,6 +169,12 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-icons">
+        {/* Ícono de chat */}
+        <div className="chat-icon" onClick={irAMensajes}>
+          <ChatBubbleLeftEllipsisIcon className="icon" />
+        </div>
+
+        {/* Ícono de notificaciones */}
         <div className="notification-icon" onClick={toggleNotificaciones} ref={notiRef}>
           <BellIcon className="icon" />
           {solicitudes.length > 0 && (
@@ -177,11 +190,7 @@ const Navbar = () => {
                 solicitudes.map((sol) => (
                   <div key={sol._id} className="noti-item">
                     {sol.emisor.foto ? (
-                      <img
-                        src={sol.emisor.foto}
-                        alt="foto"
-                        className="noti-foto"
-                      />
+                      <img src={sol.emisor.foto} alt="foto" className="noti-foto" />
                     ) : (
                       <UserCircleIcon className="noti-foto" />
                     )}
@@ -200,6 +209,7 @@ const Navbar = () => {
           )}
         </div>
 
+        {/* Ícono de usuario */}
         <div className="user-icon-container" onClick={toggleMenu}>
           {fotoPerfil ? (
             <img src={fotoPerfil} alt="Perfil" className="icon profile-photo" />

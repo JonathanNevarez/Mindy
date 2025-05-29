@@ -14,6 +14,7 @@
   font-size: 1.5rem;
   font-weight: bold;
   color: red;
+  cursor: pointer;
 }
 
 .navbar-search-container {
@@ -94,8 +95,29 @@
   justify-content: center;
 }
 
+/* NUEVO: ícono de chat */
+.chat-icon {
+  position: relative;
+  cursor: pointer;
+}
+
+/* Ícono de usuario */
 .user-icon-container {
   position: relative;
+}
+
+/* Hacer la imagen redonda */
+.profile-photo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-icon {
+  width: 32px;
+  height: 32px;
+  color: #4B5563;
 }
 
 .user-menu {
