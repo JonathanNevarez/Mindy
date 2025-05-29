@@ -59,21 +59,7 @@ router.get('/buscar', authMiddleware, async (req, res) => {
   }
 });
 
-// ✅ Obtener perfil público por ID (uso interno opcional)
-router.get('/:id', async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id).select('-password -email');
-    if (!user) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
-    }
-    res.json(user);
-  } catch (error) {
-    console.error('❌ Error al obtener perfil por ID:', error);
-    res.status(500).json({ message: 'Error al obtener perfil público' });
-  }
-});
-
-// ✅ Obtener perfil público por username
+// ✅ Obtener perfil público por username (DEBE IR ANTES que /:id)
 router.get('/username/:username', async (req, res) => {
   try {
     const usuario = await User.findOne({ username: req.params.username }).select('-password -email');
@@ -95,6 +81,20 @@ router.get('/amigos', authMiddleware, async (req, res) => {
   } catch (err) {
     console.error('❌ Error al obtener amigos:', err);
     res.status(500).json({ error: 'Error al obtener la lista de amigos' });
+  }
+});
+
+// ✅ Obtener perfil público por ID (ESTO SIEMPRE VA AL FINAL)
+router.get('/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select('-password -email');
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error('❌ Error al obtener perfil por ID:', error);
+    res.status(500).json({ message: 'Error al obtener perfil público' });
   }
 });
 
