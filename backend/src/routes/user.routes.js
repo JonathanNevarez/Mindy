@@ -90,10 +90,11 @@ router.get('/username/:username', async (req, res) => {
 // ✅ Obtener lista de amigos del usuario autenticado
 router.get('/amigos', authMiddleware, async (req, res) => {
   try {
+    console.log('✅ Usuario autenticado:', req.user.id); // <-- Agrega esto
     const user = await User.findById(req.user.id).populate('amigos', 'name username foto');
     res.json(user.amigos);
   } catch (err) {
-    console.error('❌ Error al obtener amigos:', err);
+    console.error('❌ Error al obtener amigos:', err); // <-- Ya lo tienes
     res.status(500).json({ error: 'Error al obtener la lista de amigos' });
   }
 });
