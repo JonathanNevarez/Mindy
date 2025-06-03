@@ -18,12 +18,17 @@ const { verificarAmistad } = require('./utils/verificarAmistad');
 const { guardarMensajeEnDB } = require('./utils/guardarMensajeEnDB');
 
 const app = express();
+
+// Confía en proxy (necesario para Render y HTTPS proxy)
+app.set('trust proxy', 1);
+
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: '*', // cámbialo si usas un frontend específico
-    methods: ['GET', 'POST']
+    origin: 'https://peneclone.info', // dominio frontend
+    methods: ['GET', 'POST'],
+    credentials: true
   }
 });
 
@@ -72,7 +77,10 @@ io.on('connection', (socket) => {
 });
 
 // Middlewares y rutas
-app.use(cors());
+app.use(cors({
+  origin: 'https://peneclone.info', // dominio frontend
+  credentials: true
+}));
 app.use(express.json());
 
 app.use('/api/usuario', userRoutes);
