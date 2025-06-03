@@ -15,8 +15,8 @@ const solicitudRoutes = require('./routes/solicitud.routes');
 const uploadRoutes = require('./routes/upload.routes');
 
 // Utilidades para el chat
-const { verificarAmistad } = require('./utils/verificarAmistad');
-const { guardarMensajeEnDB } = require('./utils/guardarMensajeEnDB');
+const verificarAmistad = require('./utils/verificarAmistad');
+const guardarMensajeEnDB = require('./utils/guardarMensajeEnDB');
 
 const app = express();
 

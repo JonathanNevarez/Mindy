@@ -10,4 +10,4 @@ const guardarMensajeEnDB = async (de, para, mensaje) => {
   }
 };
 
-module.exports = { guardarMensajeEnDB };
+module.exports = guardarMensajeEnDB;
