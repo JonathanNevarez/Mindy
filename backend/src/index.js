@@ -5,6 +5,7 @@ const http = require('http');
 const path = require('path');
 const { Server } = require('socket.io');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 // DB y rutas
 const connectDB = require('./db');
@@ -55,19 +56,44 @@ io.on('connection', (socket) => {
   usuariosConectados.set(socket.userId, socket.id);
 
   socket.on('mensajePrivado', async ({ para, mensaje }) => {
-    if (!usuariosConectados.has(para)) return;
+    if (!mongoose.Types.ObjectId.isValid(socket.userId) || !mongoose.Types.ObjectId.isValid(para)) {
+      console.log('ID de usuario o receptor inválido');
+      return;
+    }
+    console.log(`Mensaje recibido de ${socket.userId} para ${para}: ${mensaje}`);
+
+    if (!usuariosConectados.has(para)) {
+      console.log(`Receptor ${para} no está conectado`);
+      // Puedes guardar el mensaje para entrega diferida si quieres
+    }
 
     const esAmigo = await verificarAmistad(socket.userId, para);
-    if (!esAmigo) return;
+    console.log(`¿Son amigos? ${esAmigo}`);
 
-    await guardarMensajeEnDB(socket.userId, para, mensaje);
+    if (!esAmigo) {
+      console.log('No son amigos, mensaje no enviado');
+      return;
+    }
+
+    try {
+      await guardarMensajeEnDB(socket.userId, para, mensaje);
+      console.log('Mensaje guardado en DB');
+    } catch (error) {
+      console.error('Error guardando mensaje:', error);
+      return; // No sigas con la emisión si fallo guardar
+    }
 
     const receptorSocketId = usuariosConectados.get(para);
-    io.to(receptorSocketId).emit('nuevoMensaje', {
-      de: socket.userId,
-      mensaje,
-      timestamp: new Date()
-    });
+    if (receptorSocketId) {
+      io.to(receptorSocketId).emit('nuevoMensaje', {
+        de: socket.userId,
+        mensaje,
+        timestamp: new Date()
+      });
+      console.log('Mensaje emitido al receptor');
+    } else {
+      console.log('Receptor no conectado, no se emitió mensaje');
+    }
   });
 
   socket.on('disconnect', () => {
