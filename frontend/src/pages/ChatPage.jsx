@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import socket from '../socket';
 import Navbar from '../components/Navbar';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
+import jwtDecode from 'jwt-decode';
 import './ChatPage.css';
 
 const ChatPage = () => {
@@ -9,9 +10,15 @@ const ChatPage = () => {
   const [receptor, setReceptor] = useState(null);
   const [mensaje, setMensaje] = useState('');
   const [conversacion, setConversacion] = useState([]);
+  const [miId, setMiId] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    if (token) {
+      const decoded = jwtDecode(token);
+      setMiId(decoded.id);
+    }
+
     fetch(`${import.meta.env.VITE_API_URL}/api/usuario/amigos`, {
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -53,7 +60,7 @@ const ChatPage = () => {
       .then(res => res.json())
       .then(data => {
         const mensajesFormateados = data.map(msg => ({
-          de: msg.de === amigo._id ? amigo._id : 'yo',
+          de: msg.de === miId ? 'yo' : amigo._id,
           mensaje: msg.mensaje
         }));
         setConversacion(mensajesFormateados);
