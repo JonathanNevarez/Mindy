@@ -42,6 +42,7 @@ io.use((socket, next) => {
   if (!token) return next(new Error('No autorizado'));
 
   try {
+    console.log('🔐 JWT_SECRET en socket.io:', process.env.JWT_SECRET);
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     socket.userId = decoded.id;
     next();
