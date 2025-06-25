@@ -5,4 +5,4 @@ const verificarAmistad = async (id1, id2) => {
   return usuario && usuario.amigos.includes(id2);
 };
 
-module.exports = { verificarAmistad };
+module.exports = verificarAmistad;
