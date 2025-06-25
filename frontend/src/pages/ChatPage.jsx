@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import socket from '../socket';
 import Navbar from '../components/Navbar';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
@@ -13,6 +13,9 @@ const ChatPage = () => {
   const miId = localStorage.getItem('usuarioId');
   const token = localStorage.getItem('token');
 
+  const chatRef = useRef(null);
+
+  // Cargar lista de amigos
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/usuario/amigos`, {
       headers: { Authorization: `Bearer ${token}` }
@@ -21,6 +24,7 @@ const ChatPage = () => {
       .then(data => setAmigos(data));
   }, []);
 
+  // Escuchar nuevos mensajes
   useEffect(() => {
     socket.on('nuevoMensaje', (data) => {
       if (receptor && data.de === receptor._id) {
@@ -32,6 +36,13 @@ const ChatPage = () => {
       socket.off('nuevoMensaje');
     };
   }, [receptor]);
+
+  // Scroll automático al final
+  useEffect(() => {
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  }, [conversacion]);
 
   const enviarMensaje = () => {
     if (!mensaje || !receptor) return;
@@ -70,7 +81,6 @@ const ChatPage = () => {
               className={`amigo ${receptor && receptor._id === amigo._id ? 'activo' : ''}`}
               onClick={() => {
                 setReceptor(amigo);
-                setConversacion([]);
                 cargarHistorial(amigo);
               }}
             >
@@ -96,7 +106,7 @@ const ChatPage = () => {
                 <span>{receptor.name}</span>
               </div>
 
-              <div className="chat-mensajes">
+              <div className="chat-mensajes" ref={chatRef}>
                 {conversacion.map((msg, i) => (
                   <div
                     key={i}

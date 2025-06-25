@@ -32,9 +32,9 @@ const registerUser = async (req, res) => {
 
     res.status(201).json({ user: newUser });
   } catch (err) {
-  console.error('💥 Error al registrar usuario:\n', JSON.stringify(err, null, 2));
-  res.status(500).json({ message: 'Error al registrar usuario' });
-}
+    console.error('💥 Error al registrar usuario:\n', JSON.stringify(err, null, 2));
+    res.status(500).json({ message: 'Error al registrar usuario' });
+  }
 };
 
 // LOGIN
@@ -53,7 +53,12 @@ const loginUser = async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    res.json({ token });
+    // ✅ Enviamos también el ID del usuario
+    res.json({
+      token,
+      usuarioId: user._id
+    });
+
   } catch (err) {
     res.status(500).json({ message: 'Error al iniciar sesión' });
   }
