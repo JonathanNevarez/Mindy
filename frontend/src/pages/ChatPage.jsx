@@ -1,30 +1,24 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import socket from '../socket';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar'; // asegúrate de que existe y esté bien importado
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import './ChatPage.css';
 
 const ChatPage = () => {
   const [amigos, setAmigos] = useState([]);
-  const [receptor, setReceptor] = useState(null);
+  const [receptor, setReceptor] = useState(null); // objeto del amigo
   const [mensaje, setMensaje] = useState('');
   const [conversacion, setConversacion] = useState([]);
 
-  const miId = localStorage.getItem('usuarioId');
-  const token = localStorage.getItem('token');
-
-  const chatRef = useRef(null);
-
-  // Cargar lista de amigos
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/usuario/amigos`, {
-      headers: { Authorization: `Bearer ${token}` }
+    const token = localStorage.getItem('token');
+    fetch(${import.meta.env.VITE_API_URL}/api/usuario/amigos, {
+      headers: { Authorization: Bearer ${token} }
     })
       .then(res => res.json())
       .then(data => setAmigos(data));
   }, []);
 
-  // Escuchar nuevos mensajes
   useEffect(() => {
     socket.on('nuevoMensaje', (data) => {
       if (receptor && data.de === receptor._id) {
@@ -37,13 +31,6 @@ const ChatPage = () => {
     };
   }, [receptor]);
 
-  // Scroll automático al final
-  useEffect(() => {
-    if (chatRef.current) {
-      chatRef.current.scrollTop = chatRef.current.scrollHeight;
-    }
-  }, [conversacion]);
-
   const enviarMensaje = () => {
     if (!mensaje || !receptor) return;
 
@@ -52,36 +39,23 @@ const ChatPage = () => {
       mensaje
     });
 
-    setConversacion(prev => [...prev, { de: miId, mensaje }]);
+    setConversacion(prev => [...prev, { de: 'yo', mensaje }]);
     setMensaje('');
-  };
-
-  const cargarHistorial = (amigo) => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/mensajes/${amigo._id}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(res => res.json())
-      .then(data => {
-        const mensajesFormateados = data.map(msg => ({
-          de: msg.de,
-          mensaje: msg.mensaje
-        }));
-        setConversacion(mensajesFormateados);
-      });
   };
 
   return (
     <div>
       <Navbar />
+
       <div className="chat-layout">
         <aside className="amigos">
           {amigos.map((amigo) => (
             <div
               key={amigo._id}
-              className={`amigo ${receptor && receptor._id === amigo._id ? 'activo' : ''}`}
+              className={amigo ${receptor && receptor._id === amigo._id ? 'activo' : ''}}
               onClick={() => {
                 setReceptor(amigo);
-                cargarHistorial(amigo);
+                setConversacion([]); // opcional: resetear
               }}
             >
               {amigo.foto ? (
@@ -106,11 +80,11 @@ const ChatPage = () => {
                 <span>{receptor.name}</span>
               </div>
 
-              <div className="chat-mensajes" ref={chatRef}>
+              <div className="chat-mensajes">
                 {conversacion.map((msg, i) => (
                   <div
                     key={i}
-                    className={`mensaje ${msg.de === miId ? 'enviado' : 'recibido'}`}
+                    className={mensaje ${msg.de === 'yo' ? 'enviado' : 'recibido'}}
                   >
                     {msg.mensaje}
                   </div>
