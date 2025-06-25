@@ -14,14 +14,13 @@ const authRoutes = require('./routes/auth.routes');
 const solicitudRoutes = require('./routes/solicitud.routes');
 const uploadRoutes = require('./routes/upload.routes');
 const mensajeRoutes = require('./routes/mensaje.routes');
-
+app.use('/api/mensajes', mensajeRoutes);
 
 // Utilidades para el chat
 const verificarAmistad = require('./utils/verificarAmistad');
 const guardarMensajeEnDB = require('./utils/guardarMensajeEnDB');
 
 const app = express();
-app.use('/api/mensajes', mensajeRoutes);
 
 // Confía en proxy (necesario para Render y HTTPS proxy)
 app.set('trust proxy', 1);
