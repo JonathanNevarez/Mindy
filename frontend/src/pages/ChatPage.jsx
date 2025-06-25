@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import socket from '../socket';
-import Navbar from '../components/Navbar'; // asegúrate de que existe y esté bien importado
+import Navbar from '../components/Navbar';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import './ChatPage.css';
 
 const ChatPage = () => {
   const [amigos, setAmigos] = useState([]);
-  const [receptor, setReceptor] = useState(null); // objeto del amigo
+  const [receptor, setReceptor] = useState(null);
   const [mensaje, setMensaje] = useState('');
   const [conversacion, setConversacion] = useState([]);
 
@@ -43,6 +43,23 @@ const ChatPage = () => {
     setMensaje('');
   };
 
+  const cargarHistorial = (amigo) => {
+    const token = localStorage.getItem('token');
+    fetch(`${import.meta.env.VITE_API_URL}/api/mensajes/${amigo._id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        const mensajesFormateados = data.map(msg => ({
+          de: msg.de === amigo._id ? amigo._id : 'yo',
+          mensaje: msg.mensaje
+        }));
+        setConversacion(mensajesFormateados);
+      });
+  };
+
   return (
     <div>
       <Navbar />
@@ -55,7 +72,8 @@ const ChatPage = () => {
               className={`amigo ${receptor && receptor._id === amigo._id ? 'activo' : ''}`}
               onClick={() => {
                 setReceptor(amigo);
-                setConversacion([]); // opcional: resetear
+                setConversacion([]);
+                cargarHistorial(amigo);
               }}
             >
               {amigo.foto ? (

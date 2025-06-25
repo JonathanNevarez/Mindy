@@ -13,6 +13,8 @@ const userRoutes = require('./routes/user.routes');
 const authRoutes = require('./routes/auth.routes');
 const solicitudRoutes = require('./routes/solicitud.routes');
 const uploadRoutes = require('./routes/upload.routes');
+const mensajeRoutes = require('./routes/mensaje.routes');
+app.use('/api/mensajes', mensajeRoutes);
 
 // Utilidades para el chat
 const verificarAmistad = require('./utils/verificarAmistad');
