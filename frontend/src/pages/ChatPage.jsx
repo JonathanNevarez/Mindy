@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 import socket from '../socket';
-import Navbar from '../components/Navbar'; // asegúrate de que existe y esté bien importado
+import Navbar from '../components/Navbar';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import './ChatPage.css';
 
 const ChatPage = () => {
   const [amigos, setAmigos] = useState([]);
-  const [receptor, setReceptor] = useState(null); // objeto del amigo
+  const [receptor, setReceptor] = useState(null);
   const [mensaje, setMensaje] = useState('');
   const [conversacion, setConversacion] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch(${import.meta.env.VITE_API_URL}/api/usuario/amigos, {
-      headers: { Authorization: Bearer ${token} }
+    fetch(`${import.meta.env.VITE_API_URL}/api/usuario/amigos`, {
+      headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())
       .then(data => setAmigos(data));
@@ -46,16 +46,15 @@ const ChatPage = () => {
   return (
     <div>
       <Navbar />
-
       <div className="chat-layout">
         <aside className="amigos">
           {amigos.map((amigo) => (
             <div
               key={amigo._id}
-              className={amigo ${receptor && receptor._id === amigo._id ? 'activo' : ''}}
+              className={`amigo ${receptor && receptor._id === amigo._id ? 'activo' : ''}`}
               onClick={() => {
                 setReceptor(amigo);
-                setConversacion([]); // opcional: resetear
+                setConversacion([]); // ← Aquí se reinicia la conversación sin cargar historial
               }}
             >
               {amigo.foto ? (
@@ -84,7 +83,7 @@ const ChatPage = () => {
                 {conversacion.map((msg, i) => (
                   <div
                     key={i}
-                    className={mensaje ${msg.de === 'yo' ? 'enviado' : 'recibido'}}
+                    className={`mensaje ${msg.de === 'yo' ? 'enviado' : 'recibido'}`}
                   >
                     {msg.mensaje}
                   </div>
