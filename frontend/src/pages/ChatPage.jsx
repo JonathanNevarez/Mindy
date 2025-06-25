@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import socket from '../socket';
 import Navbar from '../components/Navbar';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
-import jwtDecode from 'jwt-decode';
 import './ChatPage.css';
 
 const ChatPage = () => {
@@ -10,15 +9,11 @@ const ChatPage = () => {
   const [receptor, setReceptor] = useState(null);
   const [mensaje, setMensaje] = useState('');
   const [conversacion, setConversacion] = useState([]);
-  const [miId, setMiId] = useState(null);
+
+  const miId = localStorage.getItem('usuarioId');
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decoded = jwtDecode(token);
-      setMiId(decoded.id);
-    }
-
     fetch(`${import.meta.env.VITE_API_URL}/api/usuario/amigos`, {
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -46,21 +41,18 @@ const ChatPage = () => {
       mensaje
     });
 
-    setConversacion(prev => [...prev, { de: 'yo', mensaje }]);
+    setConversacion(prev => [...prev, { de: miId, mensaje }]);
     setMensaje('');
   };
 
   const cargarHistorial = (amigo) => {
-    const token = localStorage.getItem('token');
     fetch(`${import.meta.env.VITE_API_URL}/api/mensajes/${amigo._id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())
       .then(data => {
         const mensajesFormateados = data.map(msg => ({
-          de: msg.de === miId ? 'yo' : amigo._id,
+          de: msg.de,
           mensaje: msg.mensaje
         }));
         setConversacion(mensajesFormateados);
@@ -70,7 +62,6 @@ const ChatPage = () => {
   return (
     <div>
       <Navbar />
-
       <div className="chat-layout">
         <aside className="amigos">
           {amigos.map((amigo) => (
@@ -109,7 +100,7 @@ const ChatPage = () => {
                 {conversacion.map((msg, i) => (
                   <div
                     key={i}
-                    className={`mensaje ${msg.de === 'yo' ? 'enviado' : 'recibido'}`}
+                    className={`mensaje ${msg.de === miId ? 'enviado' : 'recibido'}`}
                   >
                     {msg.mensaje}
                   </div>
