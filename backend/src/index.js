@@ -15,22 +15,39 @@ const solicitudRoutes = require('./routes/solicitud.routes');
 const uploadRoutes = require('./routes/upload.routes');
 const mensajeRoutes = require('./routes/mensaje.routes');
 
-
 // Utilidades para el chat
 const verificarAmistad = require('./utils/verificarAmistad');
 const guardarMensajeEnDB = require('./utils/guardarMensajeEnDB');
 
 const app = express();
+
+// ✅ CORS corregido: permite header Authorization
+app.use(cors({
+  origin: 'https://peneclone.info',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
+
+app.use(express.json());
+
+// Rutas API
+app.use('/api/usuario', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/solicitudes', solicitudRoutes);
+app.use('/api/upload', uploadRoutes);
 app.use('/api/mensajes', mensajeRoutes);
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Confía en proxy (necesario para Render y HTTPS proxy)
 app.set('trust proxy', 1);
 
+// Servidor y socket.io
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: 'https://peneclone.info', // dominio frontend
+    origin: 'https://peneclone.info',
     methods: ['GET', 'POST'],
     credentials: true
   }
@@ -39,7 +56,7 @@ const io = new Server(server, {
 // Usuarios conectados: userId -> socket.id
 const usuariosConectados = new Map();
 
-// Middleware socket.io: autenticación con token
+// Middleware de autenticación para sockets
 io.use((socket, next) => {
   const token = socket.handshake.auth.token;
   if (!token) return next(new Error('No autorizado'));
@@ -64,16 +81,10 @@ io.on('connection', (socket) => {
       console.log('ID de usuario o receptor inválido');
       return;
     }
+
     console.log(`Mensaje recibido de ${socket.userId} para ${para}: ${mensaje}`);
 
-    if (!usuariosConectados.has(para)) {
-      console.log(`Receptor ${para} no está conectado`);
-      // Puedes guardar el mensaje para entrega diferida si quieres
-    }
-
     const esAmigo = await verificarAmistad(socket.userId, para);
-    console.log(`¿Son amigos? ${esAmigo}`);
-
     if (!esAmigo) {
       console.log('No son amigos, mensaje no enviado');
       return;
@@ -84,7 +95,7 @@ io.on('connection', (socket) => {
       console.log('Mensaje guardado en DB');
     } catch (error) {
       console.error('Error guardando mensaje:', error);
-      return; // No sigas con la emisión si fallo guardar
+      return;
     }
 
     const receptorSocketId = usuariosConectados.get(para);
@@ -106,23 +117,11 @@ io.on('connection', (socket) => {
   });
 });
 
-// Middlewares y rutas
-app.use(cors({
-  origin: 'https://peneclone.info', // dominio frontend
-  credentials: true
-}));
-app.use(express.json());
-
-app.use('/api/usuario', userRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/solicitudes', solicitudRoutes);
-app.use('/api/upload', uploadRoutes);
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-
-// Conexión a MongoDB
-connectDB();
-
+// Prueba
 app.get('/', (req, res) => res.send('Servidor Mindy activo'));
+
+// Conexión a DB y levantar server
+connectDB();
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, '0.0.0.0', () => {
