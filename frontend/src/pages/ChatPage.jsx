@@ -43,9 +43,27 @@ const ChatPage = () => {
     setMensaje('');
   };
 
+  const cargarHistorial = (amigo) => {
+    const token = localStorage.getItem('token');
+    fetch(`${import.meta.env.VITE_API_URL}/api/mensajes/${amigo._id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        const mensajesFormateados = data.map(msg => ({
+          de: msg.de === amigo._id ? amigo._id : 'yo',
+          mensaje: msg.mensaje
+        }));
+        setConversacion(mensajesFormateados);
+      });
+  };
+
   return (
     <div>
       <Navbar />
+
       <div className="chat-layout">
         <aside className="amigos">
           {amigos.map((amigo) => (
@@ -54,7 +72,8 @@ const ChatPage = () => {
               className={`amigo ${receptor && receptor._id === amigo._id ? 'activo' : ''}`}
               onClick={() => {
                 setReceptor(amigo);
-                setConversacion([]); // ← Aquí se reinicia la conversación sin cargar historial
+                setConversacion([]);
+                cargarHistorial(amigo);
               }}
             >
               {amigo.foto ? (
