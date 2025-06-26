@@ -7,7 +7,7 @@ import Inicio from './pages/Inicio';
 import Perfil from './pages/Perfil';
 import EditarPerfil from './pages/EditarPerfil';
 import PerfilUsuario from './pages/PerfilUsuario';
-import ChatPage from './pages/ChatPage'; // <-- nuevo
+import ChatPage from './pages/ChatPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import socket from './socket';
 
