@@ -10,8 +10,16 @@ const ChatPage = () => {
   const [mensaje, setMensaje] = useState('');
   const [conversacion, setConversacion] = useState([]);
 
+  const miId = localStorage.getItem('usuarioId');
+  const token = localStorage.getItem('token');
+
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    // Conectar socket con token actualizado
+    if (!socket.connected) {
+      socket.connect();
+    }
+
+    // Obtener amigos
     fetch(`${import.meta.env.VITE_API_URL}/api/usuario/amigos`, {
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -20,6 +28,7 @@ const ChatPage = () => {
   }, []);
 
   useEffect(() => {
+    // Escuchar nuevos mensajes
     socket.on('nuevoMensaje', (data) => {
       if (receptor && data.de === receptor._id) {
         setConversacion(prev => [...prev, data]);
@@ -39,12 +48,11 @@ const ChatPage = () => {
       mensaje
     });
 
-    setConversacion(prev => [...prev, { de: 'yo', mensaje }]);
+    setConversacion(prev => [...prev, { de: miId, mensaje }]);
     setMensaje('');
   };
 
   const cargarHistorial = (amigo) => {
-    const token = localStorage.getItem('token');
     fetch(`${import.meta.env.VITE_API_URL}/api/mensajes/${amigo._id}`, {
       headers: {
         Authorization: `Bearer ${token}`
@@ -53,7 +61,7 @@ const ChatPage = () => {
       .then(res => res.json())
       .then(data => {
         const mensajesFormateados = data.map(msg => ({
-          de: msg.de === amigo._id ? amigo._id : 'yo',
+          de: msg.de,
           mensaje: msg.mensaje
         }));
         setConversacion(mensajesFormateados);
@@ -72,7 +80,6 @@ const ChatPage = () => {
               className={`amigo ${receptor && receptor._id === amigo._id ? 'activo' : ''}`}
               onClick={() => {
                 setReceptor(amigo);
-                setConversacion([]);
                 cargarHistorial(amigo);
               }}
             >
@@ -102,7 +109,7 @@ const ChatPage = () => {
                 {conversacion.map((msg, i) => (
                   <div
                     key={i}
-                    className={`mensaje ${msg.de === 'yo' ? 'enviado' : 'recibido'}`}
+                    className={`mensaje ${msg.de === miId ? 'enviado' : 'recibido'}`}
                   >
                     {msg.mensaje}
                   </div>

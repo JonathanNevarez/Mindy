@@ -1,11 +1,12 @@
 import { io } from 'socket.io-client';
 
-// Solo usamos la URL definida en .env
 const socket = io(import.meta.env.VITE_BACKEND_URL, {
   autoConnect: false,
-  auth: {
-    token: localStorage.getItem('token') // JWT guardado tras login
-  }
+  auth: (cb) => {
+    const token = localStorage.getItem('token');
+    cb({ token }); // ✅ se obtiene justo antes de conectar
+  },
+  withCredentials: true
 });
 
 export default socket;
