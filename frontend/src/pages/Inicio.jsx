@@ -46,7 +46,27 @@ const Inicio = () => {
     <div>
       <Navbar />
       <div className="inicio-container">
-        <aside className="lateral-izquierdo">
+        <main className="feed">
+          <div className="publicar">
+            <textarea placeholder="¿Necesitas una tutoría? ¡Publica aquí!" />
+            <button>Publicar</button>
+          </div>
+
+          <h2>📝 Publicaciones recientes</h2>
+          {publicacionesEjemplo.map((publi, index) => (
+            <div key={index} className="publicacion">
+              <div className="publicacion-usuario">{publi.usuario}</div>
+              <div className="publicacion-texto">{publi.texto}</div>
+              <div className="publicacion-hora">{publi.hora}</div>
+              <div className="publicacion-interacciones">
+                <button className="btn-like">❤️ Me gusta</button>
+                <button className="btn-coment">💬 Comentar</button>
+              </div>
+            </div>
+          ))}
+        </main>
+
+        <aside className="lateral-derecho">
           <div className="eventos">
             <h3>📅 Próximos Eventos</h3>
             <ul>
@@ -64,26 +84,6 @@ const Inicio = () => {
             </ul>
           </div>
         </aside>
-
-        <main className="feed">
-          <div className="publicar">
-            <textarea placeholder="¿Necesitas una tutoría? ¡Publica aquí!" />
-            <button>Publicar</button>
-          </div>
-
-          <h2>📝 Publicaciones recientes</h2>
-          {publicacionesEjemplo.map((publi, index) => (
-            <div key={index} className="publicacion">
-              <div className="publicacion-usuario">{publi.usuario}</div>
-              <div className="publicacion-texto">{publi.texto}</div>
-              <div className="publicacion-hora">{publi.hora}</div>
-              <div className="publicacion-interacciones">
-                <button>❤️ Me gusta</button>
-                <button>💬 Comentar</button>
-              </div>
-            </div>
-          ))}
-        </main>
       </div>
     </div>
   );
