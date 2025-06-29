@@ -43,13 +43,13 @@ const perfilesRecomendados = [
 
 const Inicio = () => {
   return (
-    <div>
+    <div className="pagina-inicio">
       <Navbar />
       <div className="inicio-container">
         <main className="feed">
           <div className="publicar">
             <textarea placeholder="¿Necesitas una tutoría? ¡Publica aquí!" />
-            <button>Publicar</button>
+            <button className="btn-publicar">Publicar</button>
           </div>
 
           <h2>📝 Publicaciones recientes</h2>
@@ -59,7 +59,7 @@ const Inicio = () => {
               <div className="publicacion-texto">{publi.texto}</div>
               <div className="publicacion-hora">{publi.hora}</div>
               <div className="publicacion-interacciones">
-                <button className="btn-like">❤️ Me gusta</button>
+                <button className="btn-like">👍 Me gusta</button>
                 <button className="btn-coment">💬 Comentar</button>
               </div>
             </div>
