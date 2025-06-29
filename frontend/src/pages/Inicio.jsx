@@ -1,33 +1,48 @@
 import Navbar from '../components/Navbar';
 import './Inicio.css';
 
+const publicacionesEjemplo = [
+  {
+    usuario: 'Jonathan R.',
+    texto: 'Necesito ayuda con Cálculo Integral, ¿alguien disponible esta semana?',
+    hora: 'Hace 5 min'
+  },
+  {
+    usuario: 'Ana M.',
+    texto: 'Ofrezco tutorías de Estadística I, experiencia previa y material incluido.',
+    hora: 'Hace 15 min'
+  },
+  {
+    usuario: 'Carlos V.',
+    texto: '¿Alguien tiene apuntes de Álgebra Lineal del profe Zambrano?',
+    hora: 'Hace 30 min'
+  },
+  {
+    usuario: 'Luis F.',
+    texto: 'Disponible para tutorías de programación en C++, virtual o presencial.',
+    hora: 'Hace 1 hora'
+  }
+];
+
 const Inicio = () => {
   return (
     <div>
       <Navbar />
       <div className="inicio-container">
-        <div className="feed">
-          <div className="publicar">
-            <textarea placeholder="¿Necesitas una tutoría? ¡Publica aquí!" />
-            <button>Publicar</button>
-          </div>
-          <div className="publicacion">
-            <h4>Jonathan</h4>
-            <p>Necesito ayuda con física 2. ¿Alguien disponible esta semana?</p>
-          </div>
-          <div className="publicacion">
-            <h4>Sofía</h4>
-            <p>Busco tutores de cálculo para repaso antes del examen.</p>
-          </div>
+        <div className="bienvenida">
+          <h1>Bienvenido a Mindy</h1>
+          <p>Conecta con otros estudiantes, encuentra tutorías o ayuda académica en tu universidad.</p>
         </div>
 
-        <div className="eventos">
-          <h3>Próximos Eventos</h3>
-          <ul>
-            <li><strong>29 junio:</strong> Sesión grupal de Matemáticas</li>
-            <li><strong>30 junio:</strong> Taller de técnicas de estudio</li>
-            <li><strong>1 julio:</strong> Tutoría abierta de Programación</li>
-          </ul>
+        <div className="publicaciones">
+          <h2>Publicaciones recientes</h2>
+          {publicacionesEjemplo.map((publi, index) => (
+            <div key={index} className="publicacion">
+              <div className="publicacion-usuario">{publi.usuario}</div>
+              <div className="publicacion-texto">{publi.texto}</div>
+              <div className="publicacion-hora">{publi.hora}</div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
