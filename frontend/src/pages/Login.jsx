@@ -8,6 +8,7 @@ const Login = () => {
     email: '',
     password: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
 
   const handleChange = e => {
@@ -63,18 +64,33 @@ const Login = () => {
             onChange={handleChange}
             required
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Contraseña"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
+          <div style={{ position: 'relative' }}>
+            <input
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              placeholder="Contraseña"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <span
+              style={{
+                position: 'absolute',
+                right: 10,
+                top: '50%',
+                transform: 'translateY(-70%)',
+                cursor: 'pointer'
+              }}
+              onMouseDown={() => setShowPassword(true)}
+              onMouseUp={() => setShowPassword(false)}
+              onMouseLeave={() => setShowPassword(false)}
+            >
+              👁️
+            </span>
+          </div>
           <button className="auth-btn" type="submit">Entrar</button>
         </form>
         {error && <p className="error-text">{error}</p>}
-
         <p className="register-link">
           ¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link>
         </p>
