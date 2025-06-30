@@ -171,7 +171,10 @@ const Register = () => {
             <label style={{ fontSize: '14px', display: 'inline' }}>
               Acepto el{' '}
               <span
-                onClick={() => setMostrarModal(true)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setMostrarModal(true);
+                }}
                 style={{ color: '#b70000', cursor: 'pointer', textDecoration: 'underline' }}
               >
                 Código de Ética de Mindy
@@ -183,7 +186,7 @@ const Register = () => {
         </form>
         {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
 
-        {mostrarModal && <EticaModal onClose={() => setMostrarModal(false)} />}
+        {mostrarModal && <EticaModal isOpen={mostrarModal} onClose={() => setMostrarModal(false)} />}
       </div>
     </div>
   );
