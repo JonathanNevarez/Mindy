@@ -12,7 +12,6 @@ const Register = () => {
     password: '',
     confirmPassword: ''
   });
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
@@ -39,6 +38,11 @@ const Register = () => {
     e.preventDefault();
     setError('');
 
+    if (!aceptaEtica) {
+      setError('Debes aceptar el Código de Ética de Mindy.');
+      return;
+    }
+
     if (!validateUsername(formData.username)) {
       setError('El username debe tener entre 3 y 16 caracteres sin espacios ni símbolos especiales');
       return;
@@ -51,11 +55,6 @@ const Register = () => {
 
     if (formData.password !== formData.confirmPassword) {
       setError('Las contraseñas no coinciden');
-      return;
-    }
-
-    if (!aceptaEtica) {
-      setError('Debes aceptar el Código de Ética para registrarte');
       return;
     }
 
@@ -162,31 +161,30 @@ const Register = () => {
               👁️
             </span>
           </div>
-
-          <div style={{ margin: '10px 0', fontSize: '0.9rem' }}>
-            <label>
-              <input
-                type="checkbox"
-                checked={aceptaEtica}
-                onChange={(e) => setAceptaEtica(e.target.checked)}
-                style={{ marginRight: '8px' }}
-              />
+          <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+            <input
+              type="checkbox"
+              checked={aceptaEtica}
+              onChange={(e) => setAceptaEtica(e.target.checked)}
+              style={{ marginRight: '8px' }}
+            />
+            <span style={{ fontSize: '14px' }}>
               Acepto el{' '}
               <span
-                style={{ color: '#b70000', cursor: 'pointer', textDecoration: 'underline' }}
                 onClick={() => setMostrarModal(true)}
+                style={{ color: '#b70000', cursor: 'pointer', textDecoration: 'underline' }}
               >
                 Código de Ética de Mindy
               </span>
-            </label>
+            </span>
           </div>
 
           <button type="submit" className="auth-btn">Registrarme</button>
         </form>
         {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
-      </div>
 
-      <EticaModal isOpen={mostrarModal} onClose={() => setMostrarModal(false)} />
+        {mostrarModal && <EticaModal onClose={() => setMostrarModal(false)} />}
+      </div>
     </div>
   );
 };
