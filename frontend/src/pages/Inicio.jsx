@@ -67,7 +67,14 @@ const Inicio = () => {
           <h2>📝 Publicaciones recientes</h2>
           {publicacionesEjemplo.map((publi, index) => (
             <div key={index} className="publicacion">
-              <div className="publicacion-usuario">{publi.usuario}</div>
+              <div className="publicacion-usuario">
+                <img 
+                  src="https://images.icon-icons.com/3868/PNG/512/profile_circle_icon_242774.png" 
+                  alt="Perfil" 
+                  className="icono-perfil" 
+                />
+                {publi.usuario}
+              </div>
               <div className="publicacion-texto">{publi.texto}</div>
               <div className="publicacion-hora">{publi.hora}</div>
               <div className="publicacion-interacciones">
