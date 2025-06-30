@@ -15,7 +15,7 @@ const Home = () => {
         <div className="home-overlay"></div>
         <div className="home-hero-content">
           <h1>
-            Tu espacio para <span>aprender, conectar y avanzar</span>
+            Tu espacio para <span>aprender, conectar y avanzar</span> en la ESPOCH
           </h1>
           <div className="home-cta-buttons">
             <Link to="/login">
@@ -34,13 +34,10 @@ const Home = () => {
           <div className="about-text">
             <h2>¿Qué es Mindy?</h2>
             <p>
-              Mindy es una plataforma educativa pensada para estudiantes universitarios que desean
-              mejorar su aprendizaje a través de tutorías colaborativas, recursos compartidos y una
-              comunidad que impulsa el éxito académico.
+              Mindy es una plataforma exclusiva para estudiantes de la ESPOCH que desean mejorar su aprendizaje a través de tutorías entre compañeros, recursos colaborativos y eventos académicos.
             </p>
             <p>
-              Nuestra misión es ofrecer un espacio seguro y eficiente donde los estudiantes puedan
-              encontrar apoyo, compartir conocimientos y avanzar juntos hacia sus metas.
+              Aquí puedes pedir ayuda, ofrecer tus conocimientos, conocer estudiantes afines y potenciar tu experiencia universitaria en un entorno amigable y organizado.
             </p>
           </div>
           <img
@@ -53,11 +50,20 @@ const Home = () => {
 
       {/* Beneficios */}
       <section className="home-benefits">
-        <h2>¿Por qué elegir Mindy?</h2>
+        <h2>Beneficios de usar Mindy</h2>
         <div className="benefit-cards">
-          <div className="card">📚 Tutorías personalizadas</div>
-          <div className="card">🤝 Comunidad activa</div>
-          <div className="card">💻 Plataforma intuitiva</div>
+          <div className="card">
+            <h3>📚 Tutorías personalizadas</h3>
+            <p>Recibe ayuda directa de otros estudiantes que ya dominaron las materias. Horarios flexibles, virtual o presencial.</p>
+          </div>
+          <div className="card">
+            <h3>🤝 Comunidad activa</h3>
+            <p>Conéctate con compañeros de la ESPOCH que están dispuestos a colaborar, compartir recursos y motivarse mutuamente.</p>
+          </div>
+          <div className="card">
+            <h3>📅 Eventos académicos</h3>
+            <p>Accede a sesiones grupales, talleres, y charlas organizadas por estudiantes para estudiantes, 100% ESPOCH.</p>
+          </div>
         </div>
       </section>
 
@@ -71,7 +77,7 @@ const Home = () => {
 
       {/* Footer */}
       <footer className="home-footer">
-        <p>© {new Date().getFullYear()} Mindy. Todos los derechos reservados.</p>
+        <p>© {new Date().getFullYear()} Mindy - ESPOCH. Todos los derechos reservados.</p>
       </footer>
     </div>
   );
