@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import EticaModal from '../components/EticaModal';
 import './Login.css';
 
 const Register = () => {
@@ -11,9 +12,12 @@ const Register = () => {
     password: '',
     confirmPassword: ''
   });
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
+  const [aceptaEtica, setAceptaEtica] = useState(false);
+  const [mostrarModal, setMostrarModal] = useState(false);
 
   const validateUsername = (username) => {
     const regex = /^[a-zA-Z0-9_]{3,16}$/;
@@ -47,6 +51,11 @@ const Register = () => {
 
     if (formData.password !== formData.confirmPassword) {
       setError('Las contraseñas no coinciden');
+      return;
+    }
+
+    if (!aceptaEtica) {
+      setError('Debes aceptar el Código de Ética para registrarte');
       return;
     }
 
@@ -153,10 +162,31 @@ const Register = () => {
               👁️
             </span>
           </div>
+
+          <div style={{ margin: '10px 0', fontSize: '0.9rem' }}>
+            <label>
+              <input
+                type="checkbox"
+                checked={aceptaEtica}
+                onChange={(e) => setAceptaEtica(e.target.checked)}
+                style={{ marginRight: '8px' }}
+              />
+              Acepto el{' '}
+              <span
+                style={{ color: '#b70000', cursor: 'pointer', textDecoration: 'underline' }}
+                onClick={() => setMostrarModal(true)}
+              >
+                Código de Ética de Mindy
+              </span>
+            </label>
+          </div>
+
           <button type="submit" className="auth-btn">Registrarme</button>
         </form>
         {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
       </div>
+
+      <EticaModal isOpen={mostrarModal} onClose={() => setMostrarModal(false)} />
     </div>
   );
 };
