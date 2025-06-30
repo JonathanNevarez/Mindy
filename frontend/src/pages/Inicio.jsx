@@ -58,6 +58,25 @@ const Inicio = () => {
     <div className="pagina-inicio">
       <Navbar />
       <div className="inicio-container">
+        <aside className="lateral-izquierdo fijo">
+          <div className="eventos">
+            <h3>📅 Próximos Eventos</h3>
+            <ul>
+              <li><strong>29 junio:</strong> Sesión grupal de Matemáticas</li>
+              <li><strong>30 junio:</strong> Taller de técnicas de estudio</li>
+              <li><strong>1 julio:</strong> Tutoría abierta de Programación</li>
+            </ul>
+          </div>
+          <div className="perfiles-recomendados">
+            <h3>👥 Perfiles recomendados</h3>
+            <ul>
+              {perfilesRecomendados.map((perfil, idx) => (
+                <li key={idx}>{perfil}</li>
+              ))}
+            </ul>
+          </div>
+        </aside>
+
         <main className="feed">
           <div className="publicar">
             <textarea placeholder="¿Necesitas una tutoría? ¡Publica aquí!" />
@@ -77,25 +96,6 @@ const Inicio = () => {
             </div>
           ))}
         </main>
-
-        <aside className="lateral-derecho">
-          <div className="eventos">
-            <h3>📅 Próximos Eventos</h3>
-            <ul>
-              <li><strong>29 junio:</strong> Sesión grupal de Matemáticas</li>
-              <li><strong>30 junio:</strong> Taller de técnicas de estudio</li>
-              <li><strong>1 julio:</strong> Tutoría abierta de Programación</li>
-            </ul>
-          </div>
-          <div className="perfiles-recomendados">
-            <h3>👥 Perfiles recomendados</h3>
-            <ul>
-              {perfilesRecomendados.map((perfil, idx) => (
-                <li key={idx}>{perfil}</li>
-              ))}
-            </ul>
-          </div>
-        </aside>
       </div>
     </div>
   );

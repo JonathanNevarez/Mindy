@@ -1,110 +1,66 @@
-/* Paleta: Rojo ESPOCH (#d32f2f), gris oscuro (#333), blanco (#fff) */
-
-.pagina-inicio {
-  background-color: #f5f5f5;
-  color: #333;
-  font-family: 'Segoe UI', sans-serif;
-}
-
 .inicio-container {
   display: flex;
-  padding: 2rem;
-  gap: 2rem;
+  padding: 20px;
+  gap: 20px;
+}
+
+.lateral-izquierdo {
+  width: 250px;
+  position: sticky;
+  top: 80px; /* Altura del navbar */
+  align-self: flex-start;
+  height: fit-content;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 10px;
 }
 
 .feed {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  flex: 1;
+  max-width: 700px;
+}
+
+.publicar {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
 }
 
 .publicar textarea {
   width: 100%;
   height: 80px;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
   resize: none;
-  font-size: 1rem;
 }
 
 .btn-publicar {
-  background-color: #d32f2f;
-  color: #fff;
+  margin-top: 10px;
+  background-color: #c8102e;
+  color: white;
   border: none;
-  padding: 0.6rem 1.2rem;
-  margin-top: 0.5rem;
-  border-radius: 6px;
+  padding: 8px 12px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
 .publicacion {
-  background-color: #fff;
-  border: 1px solid #e0e0e0;
-  padding: 1rem;
+  background: #fff;
+  border: 1px solid #ddd;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 15px;
+  margin-bottom: 15px;
 }
 
-.publicacion-usuario {
-  font-weight: 600;
-  color: #d32f2f;
-}
-
-.publicacion-texto {
-  margin: 0.5rem 0;
-}
-
-.publicacion-hora {
-  font-size: 0.8rem;
-  color: #777;
-}
-
-.publicacion-interacciones {
-  display: flex;
-  gap: 1rem;
-  margin-top: 0.5rem;
-}
-
-.btn-like,
-.btn-coment {
-  background-color: transparent;
-  color: #d32f2f;
-  border: 1px solid #d32f2f;
-  padding: 0.3rem 0.8rem;
-  border-radius: 6px;
+.publicacion-interacciones button {
+  margin-right: 10px;
+  background-color: #eee;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
   cursor: pointer;
-}
-
-.lateral-derecho {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.eventos, .perfiles-recomendados {
-  background-color: #fff;
-  padding: 1rem;
-  border-radius: 10px;
-  border: 1px solid #e0e0e0;
-}
-
-.eventos h3,
-.perfiles-recomendados h3 {
-  margin-bottom: 0.8rem;
-  color: #d32f2f;
-}
-
-.eventos ul,
-.perfiles-recomendados ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.eventos li,
-.perfiles-recomendados li {
-  margin-bottom: 0.5rem;
-  color: #333;
 }
