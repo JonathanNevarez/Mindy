@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
@@ -33,7 +33,7 @@ const Login = () => {
       let data = {};
       try {
         data = await res.json();
-      } catch (jsonErr) {
+      } catch {
         throw new Error('Respuesta inesperada del servidor');
       }
 
@@ -41,7 +41,6 @@ const Login = () => {
         throw new Error(data.message || 'Error al iniciar sesión');
       }
 
-      // ✅ Guardar token y usuarioId
       localStorage.setItem('token', data.token);
       localStorage.setItem('usuarioId', data.usuarioId);
 
@@ -50,6 +49,7 @@ const Login = () => {
       setError(err.message);
     }
   };
+
   return (
     <div className="auth-wrapper">
       <div className="auth-box">
@@ -73,7 +73,11 @@ const Login = () => {
           />
           <button className="auth-btn" type="submit">Entrar</button>
         </form>
-        {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+        {error && <p className="error-text">{error}</p>}
+
+        <p className="register-link">
+          ¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link>
+        </p>
       </div>
     </div>
   );
