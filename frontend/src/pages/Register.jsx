@@ -168,7 +168,7 @@ const Register = () => {
               onChange={(e) => setAceptaEtica(e.target.checked)}
               style={{ marginRight: '8px' }}
             />
-            <span style={{ fontSize: '14px' }}>
+            <label style={{ fontSize: '14px', display: 'inline' }}>
               Acepto el{' '}
               <span
                 onClick={() => setMostrarModal(true)}
@@ -176,7 +176,7 @@ const Register = () => {
               >
                 Código de Ética de Mindy
               </span>
-            </span>
+            </label>
           </div>
 
           <button type="submit" className="auth-btn">Registrarme</button>

@@ -71,7 +71,7 @@ const Home = () => {
       <section className="home-contact">
         <h2>¿Tienes preguntas?</h2>
         <p>
-          Escríbenos a <a href="mailto:h81ms2pv@gmail.com">soporte@mindy.com</a>
+          Escríbenos a <a href="mailto:h81ms2pv@gmail.com">h81ms2pv@gmail.com</a>
         </p>
       </section>
 
