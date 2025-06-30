@@ -58,7 +58,7 @@ const Inicio = () => {
     <div className="pagina-inicio">
       <Navbar />
       <div className="inicio-container">
-        <aside className="lateral-derecho fijo">
+        <aside className="lateral-izquierdo fijo">
           <div className="eventos">
             <h3>📅 Próximos Eventos</h3>
             <ul>
