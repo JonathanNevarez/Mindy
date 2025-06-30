@@ -31,6 +31,16 @@ const publicacionesEjemplo = [
     usuario: 'Mateo T.',
     texto: 'Doy tutorías de cálculo los fines de semana, interesados escribirme.',
     hora: 'Hace 3 horas'
+  },
+  {
+    usuario: 'Daniela S.',
+    texto: 'Estoy buscando un tutor para reforzar estructuras de datos. Urgente.',
+    hora: 'Hace 4 horas'
+  },
+  {
+    usuario: 'Pedro N.',
+    texto: 'Puedo apoyar en electrónica básica. Materiales incluidos.',
+    hora: 'Hace 5 horas'
   }
 ];
 
@@ -38,7 +48,9 @@ const perfilesRecomendados = [
   'Andrea P.',
   'Bryan C.',
   'Fernanda H.',
-  'Esteban J.'
+  'Esteban J.',
+  'Lucía M.',
+  'Sebastián T.'
 ];
 
 const Inicio = () => {
