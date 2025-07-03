@@ -61,21 +61,21 @@ const perfilesRecomendados = [
 const Inicio = () => {
   const [likes, setLikes] = useState(Array(publicacionesEjemplo.length).fill(false));
   const [likesCount, setLikesCount] = useState(Array(publicacionesEjemplo.length).fill(0));
-  const [comentariosCount] = useState(Array(publicacionesEjemplo.length).fill(0)); // puedes actualizar esto si manejas comentarios reales
+  const [comentariosCount] = useState(Array(publicacionesEjemplo.length).fill(0)); // valor inicial
 
   const toggleLike = (index) => {
     const newLikes = [...likes];
-    const newLikesCount = [...likesCount];
+    const newCounts = [...likesCount];
 
     if (newLikes[index]) {
-      newLikesCount[index] -= 1;
+      newCounts[index] -= 1;
     } else {
-      newLikesCount[index] += 1;
+      newCounts[index] += 1;
     }
 
     newLikes[index] = !newLikes[index];
     setLikes(newLikes);
-    setLikesCount(newLikesCount);
+    setLikesCount(newCounts);
   };
 
   return (
@@ -136,7 +136,14 @@ const Inicio = () => {
             <h3>👥 Perfiles recomendados</h3>
             <ul>
               {perfilesRecomendados.map((perfil, idx) => (
-                <li key={idx}>{perfil}</li>
+                <li key={idx} className="perfil-recomendado-item">
+                  <img
+                    src="https://images.icon-icons.com/3868/PNG/512/profile_circle_icon_242774.png"
+                    alt="Perfil recomendado"
+                    className="icono-perfil"
+                  />
+                  {perfil}
+                </li>
               ))}
             </ul>
           </div>

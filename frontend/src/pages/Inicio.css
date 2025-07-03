@@ -56,6 +56,9 @@
 .publicacion-usuario {
   font-weight: 600;
   color: #d32f2f;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .publicacion-texto {
@@ -69,26 +72,26 @@
 
 .publicacion-interacciones {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   margin-top: 0.5rem;
+  align-items: center;
 }
 
-.btn-like,
-.btn-coment {
-  background-color: transparent;
-  color: #d32f2f;
-  border: 1px solid #d32f2f;
-  padding: 0.3rem 0.8rem;
-  border-radius: 6px;
+.interaccion {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: 0.2s ease;
+  transition: transform 0.2s ease;
 }
 
-.btn-like:hover,
-.btn-coment:hover {
-  background-color: #d32f2f;
-  color: white;
+.interaccion:hover {
+  transform: scale(1.1);
+}
+
+.icono-interaccion {
+  width: 24px;
+  height: 24px;
 }
 
 /* Aside derecho fijo */
@@ -131,34 +134,22 @@
   font-size: 0.95rem;
 }
 
-.icono-perfil {
+.perfil-recomendado-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.perfil-recomendado-item img {
   width: 30px;
   height: 30px;
-  margin-right: 8px;
-  vertical-align: middle;
   border-radius: 50%;
 }
 
-.interaccion {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.interaccion:hover {
-  transform: scale(1.1);
-}
-
-.icono-interaccion {
-  width: 24px;
-  height: 24px;
-}
-
-.publicacion-interacciones {
-  display: flex;
-  gap: 1.5rem;
-  margin-top: 0.5rem;
-  align-items: center;
+.icono-perfil {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  vertical-align: middle;
 }
