@@ -1,4 +1,3 @@
-/* Reset global */
 * {
   box-sizing: border-box;
 }
@@ -12,13 +11,11 @@ html, body, #root {
   background-color: #fff;
 }
 
-/* Wrapper */
 .home-wrapper {
   width: 100%;
   min-height: 100vh;
 }
 
-/* Header */
 .home-header {
   position: fixed;
   top: 0;
@@ -31,7 +28,6 @@ html, body, #root {
   z-index: 1000;
 }
 
-/* Hero Section */
 .home-hero {
   background-image: url('https://i.pinimg.com/736x/4b/88/d7/4b88d7a27b3eb22035522a4e4c32caf9.jpg');
   background-size: cover;
@@ -108,7 +104,6 @@ html, body, #root {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* About */
 .home-about {
   padding: 80px 20px;
   background-color: #f9f9f9;
@@ -145,7 +140,6 @@ html, body, #root {
   height: auto;
 }
 
-/* Benefits */
 .home-benefits {
   padding: 60px 20px;
   text-align: center;
@@ -172,6 +166,7 @@ html, body, #root {
   width: 280px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
   text-align: left;
+  position: relative;
 }
 
 .card h3 {
@@ -185,7 +180,6 @@ html, body, #root {
   line-height: 1.5;
 }
 
-/* Contact */
 .home-contact {
   background-color: #fff;
   text-align: center;
@@ -206,13 +200,25 @@ html, body, #root {
   text-decoration: none;
 }
 
-/* Footer */
 .home-footer {
   background-color: #b70000;
   color: white;
   text-align: center;
   padding: 20px;
   font-size: 14px;
+}
+
+/* Estilo para el botón de "me gusta" */
+.like-button {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.2s ease;
+}
+
+.like-button:hover {
+  transform: scale(1.2);
 }
 
 /* Responsive */
