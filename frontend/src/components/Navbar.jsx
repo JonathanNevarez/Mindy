@@ -135,7 +135,7 @@ const Navbar = () => {
         style={{ cursor: 'pointer' }}
       >
         <img
-          src="/src/assets/ico_mindy_navbar.png"
+          src="./src/assets/ico_mindy_navbar.png"
           alt="Logo Mindy"
           className="logo-img"
         />
