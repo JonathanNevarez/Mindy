@@ -140,7 +140,6 @@ const Navbar = () => {
           alt="Logo Mindy"
           className="logo-img"
       />
-  <span className="logo-text">MINDY</span>
 </div>
 
       <div className="navbar-search-container">
