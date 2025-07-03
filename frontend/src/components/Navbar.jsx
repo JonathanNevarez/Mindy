@@ -134,7 +134,11 @@ const Navbar = () => {
         onClick={() => navigate('/inicio')}
         style={{ cursor: 'pointer' }}
       >
-        Mindy
+        <img
+          src="/src/assets/ico_mindy_navbar.png"
+          alt="Logo Mindy"
+          className="logo-img"
+        />
       </div>
 
       <div className="navbar-search-container">

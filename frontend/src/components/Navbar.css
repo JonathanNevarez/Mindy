@@ -224,3 +224,9 @@
   color: #777;
   padding: 10px 0;
 }
+
+.logo-img {
+  height: 40px; /* ajusta según lo necesites */
+  width: auto;
+  object-fit: contain;
+}
