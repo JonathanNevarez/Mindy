@@ -132,9 +132,33 @@
 }
 
 .icono-perfil {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   margin-right: 8px;
   vertical-align: middle;
   border-radius: 50%;
+}
+
+.interaccion {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.interaccion:hover {
+  transform: scale(1.1);
+}
+
+.icono-interaccion {
+  width: 24px;
+  height: 24px;
+}
+
+.publicacion-interacciones {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+  align-items: center;
 }

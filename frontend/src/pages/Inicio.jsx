@@ -1,5 +1,10 @@
+import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import './Inicio.css';
+
+import meGustaOn from '../assets/ico_megusta.png';
+import meGustaOff from '../assets/ico_megusta_off.png';
+import comentarioIcono from '../assets/ico_comentario.png';
 
 const publicacionesEjemplo = [
   {
@@ -54,6 +59,25 @@ const perfilesRecomendados = [
 ];
 
 const Inicio = () => {
+  const [likes, setLikes] = useState(Array(publicacionesEjemplo.length).fill(false));
+  const [likesCount, setLikesCount] = useState(Array(publicacionesEjemplo.length).fill(0));
+  const [comentariosCount] = useState(Array(publicacionesEjemplo.length).fill(0)); // puedes actualizar esto si manejas comentarios reales
+
+  const toggleLike = (index) => {
+    const newLikes = [...likes];
+    const newLikesCount = [...likesCount];
+
+    if (newLikes[index]) {
+      newLikesCount[index] -= 1;
+    } else {
+      newLikesCount[index] += 1;
+    }
+
+    newLikes[index] = !newLikes[index];
+    setLikes(newLikes);
+    setLikesCount(newLikesCount);
+  };
+
   return (
     <div className="pagina-inicio">
       <Navbar />
@@ -78,8 +102,22 @@ const Inicio = () => {
               <div className="publicacion-texto">{publi.texto}</div>
               <div className="publicacion-hora">{publi.hora}</div>
               <div className="publicacion-interacciones">
-                <button className="btn-like">👍 Me gusta</button>
-                <button className="btn-coment">💬 Comentar</button>
+                <div className="interaccion" onClick={() => toggleLike(index)}>
+                  <img
+                    src={likes[index] ? meGustaOn : meGustaOff}
+                    alt="Me gusta"
+                    className="icono-interaccion"
+                  />
+                  <span>{likesCount[index]}</span>
+                </div>
+                <div className="interaccion">
+                  <img
+                    src={comentarioIcono}
+                    alt="Comentar"
+                    className="icono-interaccion"
+                  />
+                  <span>{comentariosCount[index]}</span>
+                </div>
               </div>
             </div>
           ))}
