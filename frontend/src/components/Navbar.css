@@ -226,7 +226,14 @@
 }
 
 .logo-img {
-  height: 40px; /* ajusta según lo necesites */
+  height: 40px;
   width: auto;
   object-fit: contain;
+}
+
+.logo-text {
+  font-weight: bold;
+  font-size: 24px;
+  color: #d60000; /* rojo intenso */
+  letter-spacing: 1px;
 }

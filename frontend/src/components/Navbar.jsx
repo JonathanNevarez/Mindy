@@ -3,6 +3,7 @@ import './Navbar.css';
 import { BellIcon, ChatBubbleLeftEllipsisIcon } from '@heroicons/react/24/outline';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router-dom';
+import logoMindy from '../assets/ico_mindy_navbar.png';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -132,14 +133,15 @@ const Navbar = () => {
       <div
         className="navbar-logo"
         onClick={() => navigate('/inicio')}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}
       >
         <img
-          src="./src/assets/ico_mindy_navbar.png"
+          src={logoMindy}
           alt="Logo Mindy"
           className="logo-img"
-        />
-      </div>
+      />
+  <span className="logo-text">MINDY</span>
+</div>
 
       <div className="navbar-search-container">
         <input
