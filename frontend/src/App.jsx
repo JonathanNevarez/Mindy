@@ -34,7 +34,7 @@ const App = () => {
       <Route path="/perfil" element={<ProtectedRoute><Perfil /></ProtectedRoute>} />
       <Route path="/editarperfil" element={<ProtectedRoute><EditarPerfil /></ProtectedRoute>} />
       <Route path="/usuario/:username" element={<ProtectedRoute><PerfilUsuario /></ProtectedRoute>} />
-      <Route path="/chat" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
+      <Route path="/mensajes" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
     </Routes>
   );
 };
