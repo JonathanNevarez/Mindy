@@ -10,6 +10,10 @@ const registerUser = async (req, res) => {
     if (!name || !username || !email || !password) {
       return res.status(400).json({ message: 'Todos los campos son obligatorios' });
     }
+    
+    if (!email.endsWith('@espoch.edu.ec')) {
+      return res.status(400).json({ message: 'Solo se permiten correos institucionales @espoch.edu.ec' });
+    }
 
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {

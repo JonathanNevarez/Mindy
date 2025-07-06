@@ -58,6 +58,11 @@ const Register = () => {
       return;
     }
 
+    if (!formData.email.endsWith('@espoch.edu.ec')) {
+      setError('Solo se permiten correos institucionales @espoch.edu.ec');
+      return;
+    }
+    
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
         method: 'POST',
