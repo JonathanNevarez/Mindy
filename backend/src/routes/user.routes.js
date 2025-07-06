@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/auth.middleware');
 const User = require('../models/User');
+const Mensaje = require('../models/Mensaje');
 
 // ✅ Obtener usuario autenticado
 router.get('/me', authMiddleware, async (req, res) => {
@@ -74,13 +75,52 @@ router.get('/username/:username', async (req, res) => {
 });
 
 // ✅ Obtener lista de amigos del usuario autenticado
-router.get('/amigos', authMiddleware, async (req, res) => {
+
+
+/*router.get('/amigos', authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).populate('amigos', 'name username foto');
     res.json(user.amigos);
   } catch (err) {
     console.error('❌ Error al obtener amigos:', err);
     res.status(500).json({ error: 'Error al obtener la lista de amigos' });
+  }
+});*/
+router.get('/amigos', authMiddleware, async (req, res) => {
+  try {
+    const miId = req.user.id;
+    const user = await User.findById(miId).populate('amigos', 'name username foto');
+
+    const amigosConInfo = await Promise.all(user.amigos.map(async (amigo) => {
+      const ultimoMsg = await Mensaje.findOne({
+        $or: [
+          { de: miId, para: amigo._id },
+          { de: amigo._id, para: miId }
+        ]
+      }).sort({ timestamp: -1 });
+
+      const noLeidos = await Mensaje.countDocuments({
+        de: amigo._id,
+        para: miId,
+        leido: false
+      });
+
+      return {
+        _id: amigo._id,
+        name: amigo.name,
+        username: amigo.username,
+        foto: amigo.foto,
+        ultimoMensaje: ultimoMsg?.timestamp,
+        noLeidos
+      };
+    }));
+
+    amigosConInfo.sort((a, b) => new Date(b.ultimoMensaje || 0) - new Date(a.ultimoMensaje || 0));
+
+    res.json(amigosConInfo);
+  } catch (err) {
+    console.error('❌ Error al obtener amigos con mensajes:', err);
+    res.status(500).json({ message: 'Error interno del servidor' });
   }
 });
 

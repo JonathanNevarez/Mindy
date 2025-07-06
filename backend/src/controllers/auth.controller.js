@@ -10,7 +10,7 @@ const registerUser = async (req, res) => {
     if (!name || !username || !email || !password) {
       return res.status(400).json({ message: 'Todos los campos son obligatorios' });
     }
-    
+
     if (!email.endsWith('@espoch.edu.ec')) {
       return res.status(400).json({ message: 'Solo se permiten correos institucionales @espoch.edu.ec' });
     }
@@ -47,6 +47,10 @@ const loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+    if (!user.email.endsWith('@espoch.edu.ec')) {
+      return res.status(403).json({ message: 'Correo no autorizado para iniciar sesión' });
+    }
 
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) return res.status(401).json({ message: 'Contraseña incorrecta' });

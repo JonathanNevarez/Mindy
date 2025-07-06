@@ -14,12 +14,8 @@ const ChatPage = () => {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    // Conectar socket con token actualizado
-    if (!socket.connected) {
-      socket.connect();
-    }
+    if (!socket.connected) socket.connect();
 
-    // Obtener amigos
     fetch(`${import.meta.env.VITE_API_URL}/api/usuario/amigos`, {
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -28,16 +24,13 @@ const ChatPage = () => {
   }, []);
 
   useEffect(() => {
-    // Escuchar nuevos mensajes
     socket.on('nuevoMensaje', (data) => {
       if (receptor && data.de === receptor._id) {
         setConversacion(prev => [...prev, data]);
       }
     });
 
-    return () => {
-      socket.off('nuevoMensaje');
-    };
+    return () => socket.off('nuevoMensaje');
   }, [receptor]);
 
   const enviarMensaje = () => {
@@ -54,9 +47,7 @@ const ChatPage = () => {
 
   const cargarHistorial = (amigo) => {
     fetch(`${import.meta.env.VITE_API_URL}/api/mensajes/${amigo._id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())
       .then(data => {
@@ -77,7 +68,7 @@ const ChatPage = () => {
           {amigos.map((amigo) => (
             <div
               key={amigo._id}
-              className={`amigo ${receptor && receptor._id === amigo._id ? 'activo' : ''}`}
+              className={`amigo ${receptor && receptor._id === amigo._id ? 'activo' : ''} ${amigo.noLeidos > 0 ? 'no-leido' : ''}`}
               onClick={() => {
                 setReceptor(amigo);
                 cargarHistorial(amigo);
@@ -89,6 +80,7 @@ const ChatPage = () => {
                 <UserCircleIcon className="foto-amigo" />
               )}
               <span>{amigo.name}</span>
+              {amigo.noLeidos > 0 && <span className="badge">{amigo.noLeidos}</span>}
             </div>
           ))}
         </aside>
@@ -107,10 +99,7 @@ const ChatPage = () => {
 
               <div className="chat-mensajes">
                 {conversacion.map((msg, i) => (
-                  <div
-                    key={i}
-                    className={`mensaje ${msg.de === miId ? 'enviado' : 'recibido'}`}
-                  >
+                  <div key={i} className={`mensaje ${msg.de === miId ? 'enviado' : 'recibido'}`}>
                     {msg.mensaje}
                   </div>
                 ))}
@@ -121,6 +110,7 @@ const ChatPage = () => {
                   type="text"
                   value={mensaje}
                   onChange={(e) => setMensaje(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === 'Enter') enviarMensaje(); }}
                   placeholder="Escribe tu mensaje..."
                 />
                 <button onClick={enviarMensaje}>➤</button>
