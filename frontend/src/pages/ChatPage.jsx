@@ -27,6 +27,13 @@ const ChatPage = () => {
     socket.on('nuevoMensaje', (data) => {
       if (receptor && data.de === receptor._id) {
         setConversacion(prev => [...prev, data]);
+      } else {
+        // Opcional: actualizar el badge en tiempo real
+        setAmigos(prev =>
+          prev.map(a =>
+            a._id === data.de ? { ...a, noLeidos: (a.noLeidos || 0) + 1 } : a
+          )
+        );
       }
     });
 
@@ -46,6 +53,13 @@ const ChatPage = () => {
   };
 
   const cargarHistorial = (amigo) => {
+    // Marcar como leídos
+    fetch(`${import.meta.env.VITE_API_URL}/api/mensajes/leido/${amigo._id}`, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    // Cargar historial
     fetch(`${import.meta.env.VITE_API_URL}/api/mensajes/${amigo._id}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -56,13 +70,19 @@ const ChatPage = () => {
           mensaje: msg.mensaje
         }));
         setConversacion(mensajesFormateados);
+
+        // Quitar resaltado localmente
+        setAmigos(prev =>
+          prev.map(a =>
+            a._id === amigo._id ? { ...a, noLeidos: 0 } : a
+          )
+        );
       });
   };
 
   return (
     <div>
       <Navbar />
-
       <div className="chat-layout">
         <aside className="amigos">
           {amigos.map((amigo) => (

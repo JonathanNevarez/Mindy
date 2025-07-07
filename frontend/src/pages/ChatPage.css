@@ -4,7 +4,7 @@
 }
 
 .amigos {
-  width: 260px; /* aumentamos ancho */
+  width: 320px;
   border-right: 1px solid #ccc;
   background-color: #f7f7f7;
   padding: 10px;
@@ -19,16 +19,18 @@
   cursor: pointer;
   border-radius: 6px;
   transition: background-color 0.2s, transform 0.1s;
+  color: #333;
 }
 
-.amigo:hover, .amigo.activo {
+.amigo:hover,
+.amigo.activo {
   background-color: #e5e5e5;
   transform: scale(1.02);
 }
 
 .amigo.no-leido {
   font-weight: bold;
-  background-color: #fff7cc !important;
+  background-color: #ffeaea !important; /* rojo claro pastel */
 }
 
 .foto-amigo {
@@ -62,6 +64,8 @@
   padding: 12px;
   border-bottom: 1px solid #ddd;
   font-weight: bold;
+  background-color: #f7f7f7;
+  color: #333;
 }
 
 .foto-chat {
@@ -79,6 +83,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  background-color: white;
 }
 
 .mensaje {
@@ -86,16 +91,20 @@
   border-radius: 20px;
   max-width: 60%;
   word-wrap: break-word;
+  font-size: 15px;
+  line-height: 1.4;
 }
 
 .mensaje.enviado {
   align-self: flex-end;
-  background-color: #dcf8c6;
+  background-color: #dcf8c6; /* verde claro estilo WhatsApp */
+  color: #222;
 }
 
 .mensaje.recibido {
   align-self: flex-start;
   background-color: #f1f0f0;
+  color: #222;
 }
 
 .chat-input {
@@ -103,6 +112,7 @@
   border-top: 1px solid #ccc;
   padding: 10px;
   gap: 10px;
+  background-color: #f9f9f9;
 }
 
 .chat-input input {
@@ -111,6 +121,7 @@
   border-radius: 20px;
   padding: 8px 14px;
   outline: none;
+  font-size: 14px;
 }
 
 .chat-input button {
@@ -121,6 +132,7 @@
   font-size: 20px;
   border-radius: 50%;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .chat-input button:hover {
@@ -130,4 +142,6 @@
 .chat-placeholder {
   padding: 20px;
   color: #777;
+  font-size: 16px;
+  text-align: center;
 }
